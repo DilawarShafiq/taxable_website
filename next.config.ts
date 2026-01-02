@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   // For GitHub Pages deployment
-  basePath: "/taxable-ai-website",
-  assetPrefix: "/taxable-ai-website/",
+  basePath: "/taxable_website",
+  assetPrefix: "/taxable_website/",
 };
 
 export default nextConfig;
