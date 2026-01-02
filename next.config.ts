@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // For GitHub Pages, uncomment and set your repo name:
-  // basePath: "/taxable",
-  // assetPrefix: "/taxable/",
+  // For GitHub Pages deployment
+  basePath: "/taxable-ai-website",
+  assetPrefix: "/taxable-ai-website/",
 };
 
 export default nextConfig;
