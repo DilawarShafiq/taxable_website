@@ -1,0 +1,84 @@
+{
+  "regions": [
+    {
+      "id": "pakistan",
+      "name": "Pakistan",
+      "slug": "pakistan",
+      "flag": "pk",
+      "description": "FBR compliance, ICAP-certified services for Pakistani businesses",
+      "jurisdiction": "FBR",
+      "localRegulator": "Federal Board of Revenue",
+      "professionalBody": "Institute of Chartered Accountants Pakistan (ICAP)",
+      "office": {
+        "city": "Karachi",
+        "email": "pakistan@taxable.ai",
+        "phone": "+92 300 1234567",
+        "hours": "Mon-Sat: 9:00 AM - 6:00 PM PKT"
+      }
+    },
+    {
+      "id": "uk",
+      "name": "United Kingdom",
+      "slug": "uk",
+      "flag": "gb",
+      "description": "HMRC compliance, ICAEW & ACCA certified services",
+      "jurisdiction": "HMRC",
+      "localRegulator": "Her Majesty's Revenue and Customs",
+      "professionalBody": "Institute of Chartered Accountants England & Wales (ICAEW)",
+      "office": {
+        "city": "London",
+        "email": "uk@taxable.ai",
+        "phone": "+44 20 1234 5678",
+        "hours": "Mon-Fri: 9:00 AM - 5:30 PM GMT"
+      }
+    },
+    {
+      "id": "usa",
+      "name": "United States",
+      "slug": "usa",
+      "flag": "us",
+      "description": "IRS compliance, CPA-certified services across all 50 states",
+      "jurisdiction": "IRS",
+      "localRegulator": "Internal Revenue Service",
+      "professionalBody": "American Institute of CPAs (AICPA)",
+      "office": {
+        "city": "New York",
+        "email": "usa@taxable.ai",
+        "phone": "+1 555 123 4567",
+        "hours": "Mon-Fri: 9:00 AM - 6:00 PM EST"
+      }
+    },
+    {
+      "id": "saudi-arabia",
+      "name": "Saudi Arabia",
+      "slug": "saudi-arabia",
+      "flag": "sa",
+      "description": "ZATCA VAT & Zakat compliance, SOCPA-certified services",
+      "jurisdiction": "ZATCA",
+      "localRegulator": "Zakat, Tax and Customs Authority",
+      "professionalBody": "Saudi Organization for Certified Public Accountants (SOCPA)",
+      "office": {
+        "city": "Riyadh",
+        "email": "ksa@taxable.ai",
+        "phone": "+966 11 123 4567",
+        "hours": "Sun-Thu: 8:00 AM - 5:00 PM AST"
+      }
+    },
+    {
+      "id": "uae",
+      "name": "United Arab Emirates",
+      "slug": "uae",
+      "flag": "ae",
+      "description": "FTA VAT & Corporate Tax compliance, AAA-certified services",
+      "jurisdiction": "FTA",
+      "localRegulator": "Federal Tax Authority",
+      "professionalBody": "Accountants & Auditors Association (AAA)",
+      "office": {
+        "city": "Dubai",
+        "email": "uae@taxable.ai",
+        "phone": "+971 4 123 4567",
+        "hours": "Sun-Thu: 9:00 AM - 6:00 PM GST"
+      }
+    }
+  ]
+}

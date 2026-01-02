@@ -1,0 +1,471 @@
+openapi: 3.1.0
+info:
+  title: Taxable AI Marketing Website API
+  description: API endpoints for the Taxable AI marketing website
+  version: 1.0.0
+
+servers:
+  - url: /api
+    description: Next.js API routes
+
+paths:
+  /contact:
+    post:
+      summary: Submit contact form
+      description: Handles contact form submissions and sends email notifications
+      operationId: submitContact
+      tags:
+        - Lead Capture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+      responses:
+        '200':
+          description: Form submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /chat:
+    post:
+      summary: Send chat message
+      description: Sends a message to the AI chatbot and streams the response
+      operationId: sendChatMessage
+      tags:
+        - Chatbot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Chat response (streamed)
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: Server-sent events with chat tokens
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /chat/lead:
+    post:
+      summary: Capture lead from chatbot
+      description: Captures lead information collected during chat session
+      operationId: captureChatLead
+      tags:
+        - Lead Capture
+        - Chatbot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatLeadRequest'
+      responses:
+        '200':
+          description: Lead captured successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /upload:
+    post:
+      summary: Upload bank statement PDF
+      description: Uploads a PDF bank statement for AI processing
+      operationId: uploadDocument
+      tags:
+        - Document Processing
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: PDF file (max 25MB)
+      responses:
+        '200':
+          description: Upload initiated, returns session ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: Invalid file type or size
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /upload/{sessionId}/status:
+    get:
+      summary: Get processing status
+      description: Returns the current status of document processing
+      operationId: getProcessingStatus
+      tags:
+        - Document Processing
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Processing status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessingStatus'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /upload/{sessionId}/result:
+    get:
+      summary: Get processing results
+      description: Returns the extracted data from the processed document
+      operationId: getProcessingResult
+      tags:
+        - Document Processing
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Processing results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessingResult'
+        '404':
+          description: Session not found or expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '425':
+          description: Processing not yet complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ContactRequest:
+      type: object
+      required:
+        - name
+        - email
+        - message
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "John Smith"
+        email:
+          type: string
+          format: email
+          example: "john@company.com"
+        phone:
+          type: string
+          pattern: '^\+?[0-9\s\-\(\)]+$'
+          example: "+44 20 1234 5678"
+        company:
+          type: string
+          maxLength: 200
+          example: "Acme Corporation"
+        serviceInterest:
+          type: string
+          enum: [taxation, audits, accounting, ai-agents, general]
+          example: "taxation"
+        region:
+          type: string
+          enum: [pakistan, uk, usa, saudi-arabia, uae]
+          example: "uk"
+        message:
+          type: string
+          minLength: 10
+          maxLength: 2000
+          example: "I'm interested in your tax services..."
+
+    ContactResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Thank you for your inquiry. We'll be in touch shortly."
+        referenceId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    ChatRequest:
+      type: object
+      required:
+        - message
+        - sessionId
+      properties:
+        message:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          example: "What tax services do you offer?"
+        sessionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+          maxItems: 50
+          description: Previous messages for context
+
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    ChatLeadRequest:
+      type: object
+      required:
+        - sessionId
+        - name
+        - email
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 2
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        message:
+          type: string
+          description: Summary or specific request from chat
+
+    UploadResponse:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        status:
+          type: string
+          enum: [uploading, processing]
+          example: "processing"
+        message:
+          type: string
+          example: "File uploaded successfully. Processing started."
+
+    ProcessingStatus:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [uploading, processing, complete, error]
+        progress:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 75
+        message:
+          type: string
+          example: "Extracting transactions..."
+        estimatedTimeRemaining:
+          type: integer
+          description: Estimated seconds remaining
+          example: 10
+
+    ProcessingResult:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+        summary:
+          $ref: '#/components/schemas/Summary'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryBreakdown'
+
+    Transaction:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          example: "2026-01-15"
+        description:
+          type: string
+          example: "AMAZON.CO.UK"
+        amount:
+          type: number
+          format: float
+          example: -59.99
+        type:
+          type: string
+          enum: [credit, debit]
+        category:
+          type: string
+          example: "Shopping"
+        confidence:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          example: 0.95
+
+    Summary:
+      type: object
+      properties:
+        totalCredits:
+          type: number
+          format: float
+          example: 5000.00
+        totalDebits:
+          type: number
+          format: float
+          example: 3500.00
+        netChange:
+          type: number
+          format: float
+          example: 1500.00
+        transactionCount:
+          type: integer
+          example: 127
+        dateRange:
+          type: object
+          properties:
+            start:
+              type: string
+              format: date
+            end:
+              type: string
+              format: date
+
+    CategoryBreakdown:
+      type: object
+      properties:
+        category:
+          type: string
+          example: "Shopping"
+        amount:
+          type: number
+          format: float
+          example: 850.00
+        percentage:
+          type: number
+          format: float
+          example: 24.3
+        count:
+          type: integer
+          example: 15
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        code:
+          type: string
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          example: "Invalid email format"
+        details:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            email: "Must be a valid email address"
+
+tags:
+  - name: Lead Capture
+    description: Contact form and lead capture endpoints
+  - name: Chatbot
+    description: AI chatbot interaction endpoints
+  - name: Document Processing
+    description: PDF upload and processing endpoints

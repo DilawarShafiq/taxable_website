@@ -1,0 +1,58 @@
+{
+  "testimonials": [
+    {
+      "id": "1",
+      "quote": "Taxable AI transformed our tax compliance process. Their AI document processing saved us hundreds of hours annually.",
+      "author": "Ahmed Hassan",
+      "role": "CFO",
+      "company": "TechVentures Pakistan",
+      "region": "Pakistan",
+      "rating": 5
+    },
+    {
+      "id": "2",
+      "quote": "The R&D tax credit claims they processed for us resulted in significant savings. Highly recommend their UK team.",
+      "author": "Sarah Thompson",
+      "role": "Finance Director",
+      "company": "InnovateTech Ltd",
+      "region": "UK",
+      "rating": 5
+    },
+    {
+      "id": "3",
+      "quote": "Their multi-state tax expertise helped us navigate complex US tax requirements with confidence.",
+      "author": "Michael Chen",
+      "role": "VP Finance",
+      "company": "GlobalSoft Inc",
+      "region": "USA",
+      "rating": 5
+    },
+    {
+      "id": "4",
+      "quote": "VAT implementation and e-invoicing compliance was seamless with Taxable AI. True experts in Saudi regulations.",
+      "author": "Khalid Al-Rashid",
+      "role": "Managing Director",
+      "company": "Arabian Holdings",
+      "region": "Saudi Arabia",
+      "rating": 5
+    },
+    {
+      "id": "5",
+      "quote": "From company setup to Corporate Tax registration, their Dubai team handled everything professionally.",
+      "author": "Priya Sharma",
+      "role": "CEO",
+      "company": "Trade Connect DMCC",
+      "region": "UAE",
+      "rating": 5
+    },
+    {
+      "id": "6",
+      "quote": "The AI chatbot provides instant answers to our tax queries. It's like having a tax expert available 24/7.",
+      "author": "John Williams",
+      "role": "Small Business Owner",
+      "company": "Williams Consulting",
+      "region": "UK",
+      "rating": 5
+    }
+  ]
+}

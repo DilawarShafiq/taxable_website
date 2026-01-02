@@ -1,0 +1,130 @@
+{
+  "agents": [
+    {
+      "id": "tax-agent",
+      "name": "Tax Agent",
+      "tagline": "Intelligent Tax Calculations",
+      "description": "Our AI Tax Agent analyzes your financial data, calculates tax obligations across jurisdictions, identifies deductions, and suggests optimization strategies.",
+      "capabilities": [
+        "Multi-jurisdiction tax calculations",
+        "Deduction identification",
+        "Tax optimization suggestions",
+        "Compliance checking",
+        "Deadline reminders"
+      ],
+      "useCases": [
+        "Calculate quarterly estimated taxes",
+        "Compare tax scenarios",
+        "Identify missed deductions"
+      ],
+      "color": "blue",
+      "badge": "Most Popular",
+      "status": "active"
+    },
+    {
+      "id": "spreadsheet-agent",
+      "name": "Spreadsheet Agent",
+      "tagline": "Automated Data Processing",
+      "description": "Upload any spreadsheet and watch our AI organize, analyze, and extract insights. Perfect for financial statements, expense reports, and data reconciliation.",
+      "capabilities": [
+        "Automatic data cleaning",
+        "Formula suggestions",
+        "Pattern recognition",
+        "Data validation",
+        "Report generation"
+      ],
+      "useCases": [
+        "Clean messy financial data",
+        "Generate summary reports",
+        "Reconcile multiple sources"
+      ],
+      "color": "green",
+      "badge": null,
+      "status": "active"
+    },
+    {
+      "id": "document-agent",
+      "name": "Document Agent",
+      "tagline": "Smart Document Analysis",
+      "description": "Extract and categorize data from bank statements, invoices, and receipts. Our AI reads, understands, and organizes your financial documents automatically.",
+      "capabilities": [
+        "PDF data extraction",
+        "Transaction categorization",
+        "Invoice processing",
+        "Receipt scanning",
+        "Summary generation"
+      ],
+      "useCases": [
+        "Process bank statements",
+        "Categorize expenses",
+        "Digitize paper records"
+      ],
+      "color": "purple",
+      "badge": "Try Demo",
+      "status": "active"
+    },
+    {
+      "id": "bookkeeping-agent",
+      "name": "Bookkeeping Agent",
+      "tagline": "24/7 Automated Bookkeeping",
+      "description": "An AI that learns your business patterns and maintains your books around the clock. Automatic categorization, reconciliation, and financial tracking.",
+      "capabilities": [
+        "Automatic categorization",
+        "Bank reconciliation",
+        "Cash flow tracking",
+        "Expense monitoring",
+        "Report scheduling"
+      ],
+      "useCases": [
+        "Daily transaction recording",
+        "Monthly reconciliation",
+        "Real-time cash position"
+      ],
+      "color": "orange",
+      "badge": null,
+      "status": "active"
+    },
+    {
+      "id": "chat-agent",
+      "name": "Chat Agent",
+      "tagline": "Instant Tax & Accounting Answers",
+      "description": "Have questions about tax rules, accounting practices, or your finances? Our AI chatbot provides instant, accurate answers 24/7.",
+      "capabilities": [
+        "Tax regulation queries",
+        "Accounting guidance",
+        "Deadline information",
+        "Process explanations",
+        "Lead capture"
+      ],
+      "useCases": [
+        "Get quick tax answers",
+        "Understand regulations",
+        "Learn accounting concepts"
+      ],
+      "color": "cyan",
+      "badge": "Live Now",
+      "status": "active"
+    },
+    {
+      "id": "analytics-agent",
+      "name": "Analytics Agent",
+      "tagline": "Actionable Financial Insights",
+      "description": "Transform raw financial data into actionable insights. Get AI-powered analysis of trends, anomalies, and opportunities in your financial data.",
+      "capabilities": [
+        "Trend analysis",
+        "Anomaly detection",
+        "Predictive insights",
+        "Benchmark comparison",
+        "Custom dashboards"
+      ],
+      "useCases": [
+        "Identify spending trends",
+        "Forecast cash flow",
+        "Spot irregularities"
+      ],
+      "color": "pink",
+      "badge": null,
+      "status": "active"
+    }
+  ]
+}

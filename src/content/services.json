@@ -1,0 +1,49 @@
+{
+  "services": [
+    {
+      "id": "taxation",
+      "name": "Taxation",
+      "slug": "taxation",
+      "description": "Comprehensive tax planning, compliance, and optimization services powered by AI",
+      "icon": "Calculator",
+      "benefits": [
+        "Multi-jurisdiction tax compliance (FBR, HMRC, IRS, ZATCA, FTA)",
+        "AI-powered tax optimization strategies",
+        "Real-time regulatory updates",
+        "Automated filing and reporting"
+      ],
+      "ctaText": "Learn More",
+      "ctaLink": "/services/taxation"
+    },
+    {
+      "id": "audits",
+      "name": "Audits",
+      "slug": "audits",
+      "description": "Independent audit and assurance services meeting international standards",
+      "icon": "ClipboardCheck",
+      "benefits": [
+        "Statutory audits (ICAP, ICAEW, AICPA, SOCPA, AAA)",
+        "Internal audit and controls review",
+        "Due diligence and special purpose audits",
+        "Regulatory compliance assessments"
+      ],
+      "ctaText": "Learn More",
+      "ctaLink": "/services/audits"
+    },
+    {
+      "id": "accounting",
+      "name": "Accounting",
+      "slug": "accounting",
+      "description": "Full-service accounting solutions with AI-enhanced accuracy and efficiency",
+      "icon": "BookOpen",
+      "benefits": [
+        "AI-powered bookkeeping automation",
+        "Financial statement preparation",
+        "Payroll and HR accounting",
+        "Management reporting and analytics"
+      ],
+      "ctaText": "Learn More",
+      "ctaLink": "/services/accounting"
+    }
+  ]
+}
