@@ -42,7 +42,7 @@ const milestones = [
   { year: "2021", event: "Opened offices in Dubai and Riyadh to serve Middle East clients" },
   { year: "2022", event: "Entered US market with New York presence" },
   { year: "2023", event: "Introduced advanced AI agents for automated tax calculations" },
-  { year: "2024", event: "Serving 500+ enterprise clients across 5 countries" },
+  { year: "2024", event: "Expanding enterprise services across 5 countries" },
 ];
 
 const team = [
@@ -91,10 +91,10 @@ const team = [
 ];
 
 const stats = [
-  { value: "500+", label: "Enterprise Clients" },
-  { value: "5", label: "Countries" },
-  { value: "50+", label: "Professionals" },
-  { value: "99.9%", label: "Accuracy Rate" },
+  { value: "—", label: "Enterprise Clients", comingSoon: true },
+  { value: "5", label: "Countries", comingSoon: false },
+  { value: "—", label: "Professionals", comingSoon: true },
+  { value: "—", label: "Accuracy Rate", comingSoon: true },
 ];
 
 export default function AboutPage() {
@@ -124,7 +124,10 @@ export default function AboutPage() {
               <AnimatedSection key={stat.label} delay={index * 0.1}>
                 <div className="text-center">
                   <p className="text-4xl font-bold text-primary mb-2">{stat.value}</p>
-                  <p className="text-muted-foreground">{stat.label}</p>
+                  <p className="text-muted-foreground">
+                    {stat.label}
+                    {stat.comingSoon && <span className="block text-xs text-primary/60">Coming Soon</span>}
+                  </p>
                 </div>
               </AnimatedSection>
             ))}

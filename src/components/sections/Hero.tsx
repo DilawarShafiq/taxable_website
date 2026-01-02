@@ -99,16 +99,19 @@ export function Hero() {
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
         >
           {[
-            { value: "500+", label: "Clients Served" },
-            { value: "5", label: "Countries" },
-            { value: "99%", label: "Client Satisfaction" },
-            { value: "24/7", label: "AI Support" },
+            { value: "—", label: "Clients Served", comingSoon: true },
+            { value: "5", label: "Countries", comingSoon: false },
+            { value: "—", label: "Client Satisfaction", comingSoon: true },
+            { value: "24/7", label: "AI Support", comingSoon: false },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary mb-1">
                 {stat.value}
               </div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div className="text-sm text-muted-foreground">
+                {stat.label}
+                {stat.comingSoon && <span className="block text-xs text-primary/60">Coming Soon</span>}
+              </div>
             </div>
           ))}
         </motion.div>
