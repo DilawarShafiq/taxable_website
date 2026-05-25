@@ -3,26 +3,5 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "regions": ["iad1"],
-  "env": {
-    "DATABASE_URL": "@database-url",
-    "DB_NAME": "taxable_ai",
-    "DB_USER": "postgres",
-    "DB_PASS": "@db-pass",
-    "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyBKim4vx1GC6jPk2ZOompEIMWCQUDO1vHo",
-    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "taxable-ai-2026.firebaseapp.com",
-    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "taxable-ai-2026",
-    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "taxable-ai-2026.firebasestorage.app",
-    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "322958252133",
-    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:322958252133:web:887cc056a1642104850e8c",
-    "ANTHROPIC_VERTEX_PROJECT_ID": "taxable-ai-2026",
-    "CLOUD_ML_REGION": "us-east5",
-    "GCS_BUCKET": "taxable-ai-documents",
-    "GMAIL_USER": "@gmail-user",
-    "GMAIL_APP_PASSWORD": "@gmail-app-password",
-    "GMAIL_LEADS_EMAIL": "leads@taxable.ai",
-    "NEXT_PUBLIC_SITE_URL": "@site-url",
-    "NEXT_PUBLIC_ENABLE_CHATBOT": "true",
-    "NEXT_PUBLIC_ENABLE_ASSET_DASHBOARD": "true"
-  }
+  "regions": ["iad1"]
 }
