@@ -117,7 +117,7 @@ export default function PrivacyPage() {
               For privacy-related inquiries, please contact our Data Protection Officer:
             </p>
             <p className="text-muted-foreground mb-4">
-              Email: privacy@taxable.ai<br />
+              Email: dilawar.gopang@gmail.com<br />
               Address: Contact our nearest regional office
             </p>
 

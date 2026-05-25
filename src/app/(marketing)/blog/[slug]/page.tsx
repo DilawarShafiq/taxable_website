@@ -97,7 +97,7 @@ The UAE's corporate tax regime represents a new era for businesses operating in 
 
 ---
 
-*Need help with UAE Corporate Tax? Contact our Dubai team at uae@taxable.ai for a free consultation.*
+*Need help with UAE Corporate Tax? Contact our Dubai team at dilawar.gopang@gmail.com for a free consultation.*
     `,
   },
   "ai-document-processing-accounting": {
@@ -182,7 +182,7 @@ Try our free demo at [/demo](/demo) to experience AI document processing firstha
 
 ---
 
-*Ready to transform your document processing? Contact us at hello@taxable.ai*
+*Ready to transform your document processing? Contact us at dilawar.gopang@gmail.com*
     `,
   },
   "pakistan-fbr-tax-updates-2026": {
@@ -276,7 +276,7 @@ Our ICAP-certified team provides:
 
 ---
 
-*Need FBR compliance support? Contact our Pakistan office at pakistan@taxable.ai*
+*Need FBR compliance support? Contact our Pakistan office at dilawar.gopang@gmail.com*
     `,
   },
   "uk-r-and-d-tax-credits-guide": {
@@ -379,7 +379,7 @@ Taxable AI helps UK companies maximize their R&D claims:
 
 ---
 
-*Think you might qualify for R&D tax credits? Contact uk@taxable.ai for a free assessment.*
+*Think you might qualify for R&D tax credits? Contact dilawar.gopang@gmail.com for a free assessment.*
     `,
   },
   "zatca-einvoicing-phase-2": {
@@ -479,7 +479,7 @@ ZATCA can impose significant penalties:
 
 ---
 
-*Need ZATCA e-invoicing support? Reach our Riyadh team at ksa@taxable.ai*
+*Need ZATCA e-invoicing support? Reach our Riyadh team at dilawar.gopang@gmail.com*
     `,
   },
 };

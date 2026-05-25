@@ -31,9 +31,9 @@ const footerLinks = {
 };
 
 const offices = [
-  { region: "Pakistan", email: "pakistan@taxable.ai", phone: "+92 300 1234567" },
-  { region: "UK", email: "uk@taxable.ai", phone: "+44 20 1234 5678" },
-  { region: "USA", email: "usa@taxable.ai", phone: "+1 555 123 4567" },
+  { region: "Pakistan", email: "dilawar.gopang@gmail.com", phone: "+92 300 1234567" },
+  { region: "UK", email: "dilawar.gopang@gmail.com", phone: "+44 20 1234 5678" },
+  { region: "USA", email: "dilawar.gopang@gmail.com", phone: "+1 555 123 4567" },
 ];
 
 export function Footer() {

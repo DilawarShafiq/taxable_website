@@ -13,7 +13,7 @@ const offices = [
   {
     region: "Pakistan",
     flag: "🇵🇰",
-    email: "pakistan@taxable.ai",
+    email: "dilawar.gopang@gmail.com",
     phone: "+92 300 1234567",
     address: "Karachi, Pakistan",
     hours: "Mon-Sat: 9:00 AM - 6:00 PM PKT",
@@ -21,7 +21,7 @@ const offices = [
   {
     region: "United Kingdom",
     flag: "🇬🇧",
-    email: "uk@taxable.ai",
+    email: "dilawar.gopang@gmail.com",
     phone: "+44 20 1234 5678",
     address: "London, UK",
     hours: "Mon-Fri: 9:00 AM - 5:30 PM GMT",
@@ -29,7 +29,7 @@ const offices = [
   {
     region: "United States",
     flag: "🇺🇸",
-    email: "usa@taxable.ai",
+    email: "dilawar.gopang@gmail.com",
     phone: "+1 555 123 4567",
     address: "New York, USA",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM EST",
@@ -37,7 +37,7 @@ const offices = [
   {
     region: "Saudi Arabia",
     flag: "🇸🇦",
-    email: "ksa@taxable.ai",
+    email: "dilawar.gopang@gmail.com",
     phone: "+966 11 123 4567",
     address: "Riyadh, Saudi Arabia",
     hours: "Sun-Thu: 8:00 AM - 5:00 PM AST",
@@ -45,7 +45,7 @@ const offices = [
   {
     region: "UAE",
     flag: "🇦🇪",
-    email: "uae@taxable.ai",
+    email: "dilawar.gopang@gmail.com",
     phone: "+971 4 123 4567",
     address: "Dubai, UAE",
     hours: "Sun-Thu: 9:00 AM - 6:00 PM GST",

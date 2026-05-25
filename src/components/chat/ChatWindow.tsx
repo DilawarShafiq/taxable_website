@@ -98,7 +98,7 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantId
-            ? { ...m, content: "I'm having trouble connecting right now. Please email us at hello@taxable.ai or try again in a moment." }
+            ? { ...m, content: "I'm having trouble connecting right now. Please email us at dilawar.gopang@gmail.com or try again in a moment." }
             : m
         )
       );

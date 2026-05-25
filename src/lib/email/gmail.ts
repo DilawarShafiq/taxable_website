@@ -2,8 +2,8 @@ import nodemailer from "nodemailer";
 import type { Jurisdiction } from "@/types/database";
 
 const FROM_NAME = "Taxable AI";
-const FROM = `${FROM_NAME} <${process.env.GMAIL_USER ?? "noreply@taxable.ai"}>`;
-const LEADS_EMAIL = process.env.GMAIL_LEADS_EMAIL ?? "leads@taxable.ai";
+const FROM = `${FROM_NAME} <${process.env.GMAIL_USER ?? "dilawar.gopang@gmail.com"}>`;
+const LEADS_EMAIL = process.env.GMAIL_LEADS_EMAIL ?? "dilawar.gopang@gmail.com";
 
 function getTransport() {
   return nodemailer.createTransport({
