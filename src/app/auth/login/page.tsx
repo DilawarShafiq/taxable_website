@@ -108,17 +108,17 @@ function LoginForm() {
 
       <div className="space-y-2 mb-6">
         {oauthButtons.map((p) => (
-          <button key={p.id} onClick={() => handleOAuth(p.id)} disabled={!!oauthLoading || loading}
-            className="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition">
+          <button key={p.id} disabled title="Coming soon"
+            className="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-400 bg-gray-50 opacity-50 cursor-not-allowed transition">
             {p.icon}
-            {oauthLoading === p.id ? "Redirecting…" : p.label}
+            {p.label} <span className="text-xs ml-1">(coming soon)</span>
           </button>
         ))}
       </div>
 
       <div className="relative mb-6">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-        <div className="relative flex justify-center text-xs text-gray-400 bg-white px-3">or sign in with email</div>
+        <div className="relative flex justify-center text-xs text-gray-400 bg-white px-3">sign in with email</div>
       </div>
 
       <form onSubmit={handleLogin} className="space-y-4">
