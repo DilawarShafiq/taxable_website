@@ -95,8 +95,11 @@ export function Header() {
           ))}
         </div>
 
-        {/* CTA Button */}
-        <div className="hidden md:flex md:items-center md:space-x-4">
+        {/* CTA Buttons */}
+        <div className="hidden md:flex md:items-center md:space-x-3">
+          <Link href="/auth/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Sign In
+          </Link>
           <Link href="/demo">
             <Button size="lg">Get Started</Button>
           </Link>
@@ -144,7 +147,12 @@ export function Header() {
                 )}
               </div>
             ))}
-            <div className="pt-4">
+            <div className="pt-4 space-y-2">
+              <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" className="w-full" size="lg">
+                  Sign In
+                </Button>
+              </Link>
               <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
                 <Button className="w-full" size="lg">
                   Get Started

@@ -15,6 +15,12 @@ const footerLinks = {
     { name: "Saudi Arabia", href: "/regions/saudi-arabia" },
     { name: "UAE", href: "/regions/uae" },
   ],
+  portals: [
+    { name: "Client Sign In", href: "/auth/login" },
+    { name: "Client Dashboard", href: "/client/dashboard" },
+    { name: "Admin Portal", href: "/admin/dashboard" },
+    { name: "Register", href: "/auth/register" },
+  ],
   company: [
     { name: "About Us", href: "/about" },
     { name: "Blog", href: "/blog" },
@@ -34,9 +40,9 @@ export function Footer() {
   return (
     <footer className="border-t bg-muted/30">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 md:col-span-2">
             <Link href="/" className="flex items-center space-x-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
                 T
@@ -66,6 +72,23 @@ export function Footer() {
                 <Twitter className="h-5 w-5" />
               </a>
             </div>
+          </div>
+
+          {/* Portals */}
+          <div>
+            <h3 className="font-semibold mb-4">Portals</h3>
+            <ul className="space-y-2">
+              {footerLinks.portals.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Services */}
