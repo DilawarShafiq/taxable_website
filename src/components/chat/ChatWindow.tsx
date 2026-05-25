@@ -21,10 +21,10 @@ const initialMessages: Message[] = [
 ];
 
 const suggestedQuestions = [
-  "What tax services do you offer?",
-  "How does your AI document processing work?",
-  "What regions do you cover?",
-  "How can I schedule a consultation?",
+  "What's the UK CGT rate on crypto in 2025-26?",
+  "How does the Pakistan Super Tax work for companies?",
+  "What FBAR penalties apply for US expats?",
+  "Explain ZATCA e-invoicing requirements for Saudi Arabia",
 ];
 
 export function ChatWindow({ onClose }: ChatWindowProps) {
@@ -41,41 +41,67 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
   }, [messages]);
 
   const handleSendMessage = async (content: string) => {
-    // Add user message
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: "user",
       content,
       timestamp: new Date(),
     };
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
+
+    // Placeholder for streaming assistant message
+    const assistantId = `assistant-${Date.now()}`;
+    setMessages((prev) => [
+      ...prev,
+      { id: assistantId, role: "assistant", content: "", timestamp: new Date() },
+    ]);
 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: content }),
+        body: JSON.stringify({
+          messages: updatedMessages.map((m) => ({ role: m.role, content: m.content })),
+        }),
       });
 
-      const data = await response.json();
+      if (!response.ok || !response.body) throw new Error("Stream failed");
 
-      const assistantMessage: Message = {
-        id: `assistant-${Date.now()}`,
-        role: "assistant",
-        content: data.response || "I apologize, but I'm having trouble responding right now. Please try again or contact us directly.",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const lines = decoder.decode(value).split("\n");
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const payload = line.slice(6);
+            if (payload === "[DONE]") break;
+            try {
+              const { text } = JSON.parse(payload);
+              accumulated += text;
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId ? { ...m, content: accumulated } : m
+                )
+              );
+            } catch { /* skip malformed chunk */ }
+          }
+        }
+      }
     } catch (error) {
       console.error("Chat error:", error);
-      const errorMessage: Message = {
-        id: `error-${Date.now()}`,
-        role: "assistant",
-        content: "I'm sorry, I'm having trouble connecting right now. Please try again or contact us at hello@taxable.ai",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === assistantId
+            ? { ...m, content: "I'm having trouble connecting right now. Please email us at hello@taxable.ai or try again in a moment." }
+            : m
+        )
+      );
     } finally {
       setIsLoading(false);
     }

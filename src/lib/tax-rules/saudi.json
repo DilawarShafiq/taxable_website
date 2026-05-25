@@ -1,0 +1,54 @@
+{
+  "jurisdiction": "saudi",
+  "year": 2026,
+  "stock": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "No personal CGT for individuals",
+    "long_term_rate_pct": "No personal CGT for individuals",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "Saudi nationals and GCC nationals: no personal capital gains tax",
+      "Foreign individuals: 20% CIT on gains from Saudi-sourced income",
+      "Saudi-listed stocks: WHT of 5% on dividends paid to non-resident shareholders",
+      "Non-resident foreign investors in Tadawul: exempt from CIT on capital gains from listed securities (FINI exemption under Investment Tax Authority rules)",
+      "Zakat applies to Saudi/GCC shareholder equity at 2.5% of Zakat base (not CGT)"
+    ],
+    "filing_requirement": "Zakat/Tax return with ZATCA (General Authority of Zakat and Tax)",
+    "authority": "ZATCA",
+    "authority_url": "https://zatca.gov.sa"
+  },
+  "crypto": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "Unclear — seek advice",
+    "long_term_rate_pct": "Unclear — seek advice",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "Saudi Arabia does not have formal crypto tax legislation as of 2026",
+      "SAMA (Saudi Central Bank) does not recognise crypto as legal tender",
+      "Crypto trading may be considered taxable income under general CIT rules for residents",
+      "No specific crypto CGT rules — this area is evolving rapidly",
+      "Seek specialist advice before any significant crypto transactions"
+    ],
+    "filing_requirement": "Consult ZATCA guidance — evolving area",
+    "authority": "ZATCA",
+    "authority_url": "https://zatca.gov.sa"
+  },
+  "real_estate": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "Real Estate Transaction Tax (RETT): 5%",
+    "long_term_rate_pct": "Real Estate Transaction Tax (RETT): 5%",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "Real Estate Transaction Tax (RETT): 5% on the transaction value (replaces VAT on real estate since 2020)",
+      "RETT is paid by the buyer, not the seller",
+      "Certain exemptions: first home purchase (up to SAR 1m), inheritance, gifts to first-degree relatives",
+      "No personal CGT on property gains for Saudi nationals",
+      "Foreign nationals investing in property: specific zoning rules apply; some areas restricted"
+    ],
+    "filing_requirement": "RETT declaration with ZATCA within 30 days of transaction",
+    "authority": "ZATCA",
+    "authority_url": "https://zatca.gov.sa/en/RulesRegulations/RealEstate/Pages/RETT.aspx"
+  },
+  "notes": "Saudi Arabia has no personal income tax. Zakat applies to Saudi/GCC company shareholders. Foreign company branches subject to 20% CIT. VAT at 15% on commercial transactions.",
+  "compliance_authority": "ZATCA"
+}

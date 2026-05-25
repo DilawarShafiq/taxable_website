@@ -1,0 +1,58 @@
+{
+  "jurisdiction": "pakistan",
+  "year": 2026,
+  "stock": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "15% (filer) / 20% (non-filer) if held < 1 year",
+    "long_term_rate_pct": "12.5% (1-2 years) / 10% (>2 years) for filers",
+    "holding_period_threshold_days": 365,
+    "special_rules": [
+      "Filer vs Non-filer distinction: non-filers face higher withholding rates",
+      "Stocks held < 1 year: 15% CGT for filers",
+      "Stocks held 1-2 years: 12.5% for filers",
+      "Stocks held > 2 years: 10% for filers",
+      "Dividend income: 15% WHT (final tax for filers)",
+      "Futures & options: taxed as business income (normal tax rates)",
+      "NCCPL collects CGT at source from PSX transactions"
+    ],
+    "filing_requirement": "Income Tax Return with FBR (IRIS portal)",
+    "authority": "FBR",
+    "authority_url": "https://fbr.gov.pk"
+  },
+  "crypto": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "Not specifically regulated (income tax rates may apply)",
+    "long_term_rate_pct": "Not specifically regulated",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "Pakistan does not have specific cryptocurrency tax legislation as of 2026",
+      "SBP (State Bank of Pakistan) and SECP have not formally recognised crypto as legal tender",
+      "Crypto gains may be treated as 'income from other sources' under Income Tax Ordinance 2001",
+      "Roshan Digital Account (RDA): foreign Pakistanis can invest in government securities — withholding exempt",
+      "Proposed Virtual Asset Service Provider (VASP) framework under SECP — watch for updates",
+      "Risk of all crypto income being taxed at income slab rates (up to 35%)"
+    ],
+    "filing_requirement": "Consult FBR guidance — evolving area; declare under 'other income' if earning",
+    "authority": "FBR",
+    "authority_url": "https://fbr.gov.pk"
+  },
+  "real_estate": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "CGT: 15% (urban immovable property, held < 1 year)",
+    "long_term_rate_pct": "5% (3-4 years) / 0% (>4 years, for filers on open plots)",
+    "holding_period_threshold_days": 365,
+    "special_rules": [
+      "CGT rates decrease with holding period: 15% (< 1 year) → 10% (1-2 years) → 7.5% (2-3 years) → 5% (3-4 years) → 0% (> 4 years for plots)",
+      "Constructed property different rates from open plots",
+      "FBR valuation tables vs. DC rates: whichever is higher applies for stamp duty",
+      "Section 7E: deemed income tax on immovable property (1% of FBR value annually for filers)",
+      "Non-filer penalty: 3% advance WHT on purchase price (instead of 1% for filers)",
+      "Benami transactions: banned under Benami Transactions (Prohibition) Act 2017"
+    ],
+    "filing_requirement": "CGT return with FBR; withholding at registration by Registrar",
+    "authority": "FBR",
+    "authority_url": "https://fbr.gov.pk"
+  },
+  "notes": "Pakistan has a complex dual-rate system for filers vs non-filers. Being on the Active Taxpayer List (ATL) significantly reduces your tax burden. Corporate tax: 29% (general), 20% (small companies). Super Tax applies above PKR 150m income.",
+  "compliance_authority": "FBR"
+}

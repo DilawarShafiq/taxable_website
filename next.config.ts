@@ -1,13 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      { protocol: "https", hostname: "*.supabase.co" },
+      { protocol: "https", hostname: "*.supabase.in" },
+    ],
   },
-  // For GitHub Pages deployment
-  basePath: "/taxable_website",
-  assetPrefix: "/taxable_website/",
+  serverExternalPackages: ["pdf-parse", "pg", "firebase-admin", "@google-cloud/storage", "@google-cloud/cloud-sql-connector", "nodemailer"],
 };
 
 export default nextConfig;

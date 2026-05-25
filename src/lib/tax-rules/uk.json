@@ -1,0 +1,55 @@
+{
+  "jurisdiction": "uk",
+  "year": 2026,
+  "stock": {
+    "annual_exempt_usd": 3000,
+    "short_term_rate_pct": "18% (basic rate) / 24% (higher rate)",
+    "long_term_rate_pct": "18% (basic rate) / 24% (higher rate)",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "No distinction between short-term and long-term in UK CGT",
+      "Annual CGT exempt amount: £3,000 (2025-26)",
+      "ISA investments: CGT-exempt, £20,000 annual allowance",
+      "Business Asset Disposal Relief (BADR): 14% on qualifying business assets (lifetime limit £1m)",
+      "Bed & ISA strategy: sell and repurchase inside ISA to crystallise gains within annual exempt"
+    ],
+    "filing_requirement": "Self-Assessment Tax Return (SA100) by 31 January",
+    "authority": "HMRC",
+    "authority_url": "https://www.gov.uk/capital-gains-tax"
+  },
+  "crypto": {
+    "annual_exempt_usd": 3000,
+    "short_term_rate_pct": "18% (basic rate) / 24% (higher rate)",
+    "long_term_rate_pct": "18% (basic rate) / 24% (higher rate)",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "HMRC treats crypto as a capital asset — CGT applies on disposal",
+      "Each crypto-to-crypto exchange is a disposal (taxable event)",
+      "Same-day rule and 30-day rule (bed & breakfasting) apply",
+      "Section 104 pool: average cost basis for matching rules",
+      "DeFi: staking income treated as miscellaneous income; LP activity may be complex",
+      "Mining/airdrops may be income — seek advice"
+    ],
+    "filing_requirement": "Self-Assessment SA100 and Capital Gains Summary SA108",
+    "authority": "HMRC",
+    "authority_url": "https://www.gov.uk/guidance/check-if-you-need-to-pay-tax-when-you-receive-cryptoassets"
+  },
+  "real_estate": {
+    "annual_exempt_usd": 3000,
+    "short_term_rate_pct": "18% (basic rate) / 24% (higher rate)",
+    "long_term_rate_pct": "18% (basic rate) / 24% (higher rate)",
+    "holding_period_threshold_days": null,
+    "special_rules": [
+      "Private Residence Relief (PRR): full exemption on primary residence",
+      "Lettings relief abolished for most cases (except specific shared occupancy scenarios)",
+      "SDLT: Stamp Duty Land Tax on purchase (additional 3% surcharge for additional properties)",
+      "30-day reporting and payment requirement for UK residential property disposals",
+      "Non-resident CGT on UK property: UK property report required within 60 days"
+    ],
+    "filing_requirement": "UK Property Return within 60 days of completion + Self-Assessment",
+    "authority": "HMRC",
+    "authority_url": "https://www.gov.uk/capital-gains-tax/property"
+  },
+  "notes": "Rates apply to England, Wales, and Northern Ireland. Scotland has different income tax bands. Annual exempt amount reduced from £12,300 (2022) — plan accordingly.",
+  "compliance_authority": "HMRC"
+}

@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "usa",
+  "year": 2026,
+  "stock": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "Ordinary income (10–37%)",
+    "long_term_rate_pct": "0% / 15% / 20%",
+    "holding_period_threshold_days": 365,
+    "special_rules": [
+      "Long-term rates: 0% if taxable income ≤ $47,025 (single); 15% up to $518,900; 20% above",
+      "Net Investment Income Tax (NIIT): additional 3.8% on investment income for high earners (AGI >$200k single)",
+      "Wash-sale rule: cannot deduct a loss if you buy the same security within 30 days"
+    ],
+    "filing_requirement": "Schedule D, Form 8949",
+    "authority": "IRS",
+    "authority_url": "https://www.irs.gov/taxtopics/tc409"
+  },
+  "crypto": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "Ordinary income (10–37%)",
+    "long_term_rate_pct": "0% / 15% / 20%",
+    "holding_period_threshold_days": 365,
+    "special_rules": [
+      "Each disposal (sale, swap, or use to pay for goods) is a taxable event",
+      "Crypto-to-crypto swaps are taxable — not just USD conversions",
+      "Wash-sale rule does NOT currently apply to crypto (legislative proposals pending)",
+      "Mining/staking rewards taxed as ordinary income at receipt; then CGT on disposal",
+      "Form 1099-DA required from brokers from 2025 onwards"
+    ],
+    "filing_requirement": "Schedule D, Form 8949",
+    "authority": "IRS",
+    "authority_url": "https://www.irs.gov/businesses/small-businesses-self-employed/virtual-currencies"
+  },
+  "real_estate": {
+    "annual_exempt_usd": null,
+    "short_term_rate_pct": "Ordinary income",
+    "long_term_rate_pct": "0% / 15% / 25% (recapture) / 20%",
+    "holding_period_threshold_days": 365,
+    "special_rules": [
+      "Primary residence exclusion: $250,000 single / $500,000 married if owned+occupied 2 of last 5 years",
+      "Depreciation recapture taxed at 25%",
+      "1031 Exchange: defer CGT by reinvesting proceeds into like-kind property",
+      "Opportunity Zone investments: potential CGT deferral and exclusion"
+    ],
+    "filing_requirement": "Schedule D, Form 4797",
+    "authority": "IRS",
+    "authority_url": "https://www.irs.gov/taxtopics/tc701"
+  },
+  "notes": "Federal rates only. State income tax applies additionally (0% in TX/FL/NV to 13.3% in CA). Consult a CPA for state-specific treatment.",
+  "compliance_authority": "IRS"
+}
