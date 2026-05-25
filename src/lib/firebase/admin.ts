@@ -4,7 +4,7 @@ import { getAuth } from "firebase-admin/auth";
 function getAdminApp(): App {
   if (getApps().length > 0) return getApps()[0]!;
 
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "taxable-ai-2026";
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "taxable-ai-2026-25314";
 
   // Cloud Run: uses Application Default Credentials (Workload Identity)
   // Local: set GOOGLE_APPLICATION_CREDENTIALS or FIREBASE_SERVICE_ACCOUNT_KEY
