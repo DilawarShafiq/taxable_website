@@ -15,6 +15,14 @@ const YF_SYMBOL_MAP: Record<string, string> = {
   "^DFMGI": "DFMGI.AE",   // DFM General Index — confirmed working
 };
 
+// Use weekly for 1y (gives ~52 points vs ~12 monthly), monthly for longer ranges
+const YF_INTERVAL: Record<string, string> = {
+  "1y": "1wk",
+  "3y": "1mo",
+  "5y": "1mo",
+  "10y": "1mo",
+};
+
 // Symbols Yahoo Finance doesn't serve — skip live fetch, use static fallback
 const YF_UNSUPPORTED = new Set(["^KSE"]);
 
@@ -25,8 +33,9 @@ export async function fetchStockHistory(symbol: string, range: string): Promise<
 
   const yfSymbol = YF_SYMBOL_MAP[symbol] ?? symbol;
   const yRange = YF_RANGE[range] ?? "5y";
+  const interval = YF_INTERVAL[range] ?? "1mo";
   const encoded = encodeURIComponent(yfSymbol);
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?range=${yRange}&interval=1mo&events=history`;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?range=${yRange}&interval=${interval}&events=history`;
 
   const res = await fetch(url, {
     headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
@@ -35,7 +44,7 @@ export async function fetchStockHistory(symbol: string, range: string): Promise<
 
   if (!res.ok) {
     const res2 = await fetch(
-      `https://query2.finance.yahoo.com/v8/finance/chart/${encoded}?range=${yRange}&interval=1mo`,
+      `https://query2.finance.yahoo.com/v8/finance/chart/${encoded}?range=${yRange}&interval=${interval}`,
       { headers: { "User-Agent": "Mozilla/5.0" }, next: { revalidate: 3600 } }
     );
     if (!res2.ok) throw new Error(`Yahoo Finance API error: ${res.status}`);

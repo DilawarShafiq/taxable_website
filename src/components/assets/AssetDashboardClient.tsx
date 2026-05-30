@@ -41,7 +41,7 @@ export default function AssetDashboardClient() {
       const res = await fetch(`/api/assets?symbol=${encodeURIComponent(asset.symbol)}&range=${r}`);
       if (!res.ok) throw new Error("Failed to fetch");
       const json = await res.json();
-      setAssetData((prev) => ({ ...prev, [key]: { def: asset, data: json.data, cachedAt: json.cachedAt, stale: json.stale } }));
+      setAssetData((prev) => ({ ...prev, [key]: { def: asset, data: json.data, cachedAt: json.cachedAt, stale: json.stale, static: json.static } }));
     } catch (err) {
       console.error(`Failed to load ${asset.symbol}:`, err);
     } finally {
@@ -106,6 +106,7 @@ export default function AssetDashboardClient() {
       data: cached?.data ?? [],
       cachedAt: cached?.cachedAt ?? "",
       stale: cached?.stale,
+      static: (cached as any)?.static,
     };
   });
 
@@ -182,6 +183,7 @@ export default function AssetDashboardClient() {
           <ComparisonChart
             assets={currentAssetData}
             loadingSymbols={loadingSymbols}
+            range={range}
           />
         </div>
       )}
