@@ -1,26 +1,20 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import type { Jurisdiction } from "@/types/database";
 
-const FROM_NAME = "Taxable AI";
-const FROM = `${FROM_NAME} <${process.env.GMAIL_USER ?? "hello@taxable.ai"}>`;
-const LEADS_EMAIL = process.env.GMAIL_LEADS_EMAIL ?? "hello@taxable.ai";
+const FROM = "Taxable AI <noreply@taxable.ai>";
+const LEADS_EMAIL = process.env.LEADS_EMAIL ?? process.env.GMAIL_LEADS_EMAIL ?? "dilawar.gopang@gmail.com";
 
-function getTransport() {
-  return nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  });
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
 }
 
 async function send(opts: { to: string; subject: string; html: string }) {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.warn("[email] GMAIL_USER or GMAIL_APP_PASSWORD not set — skipping email");
+  if (!process.env.RESEND_API_KEY) {
+    console.warn("[email] RESEND_API_KEY not set — skipping email");
     return;
   }
-  await getTransport().sendMail({ from: FROM, ...opts });
+  const { error } = await getResend().emails.send({ from: FROM, ...opts });
+  if (error) console.error("[email] send failed:", error);
 }
 
 export async function sendWelcomeEmail(to: string, name: string) {
@@ -93,6 +87,18 @@ export async function sendLeadNotification(lead: {
   });
 }
 
+export async function sendPasswordResetEmail(
+  to: string,
+  name: string,
+  resetUrl: string
+) {
+  return send({
+    to,
+    subject: "Reset your Taxable AI password",
+    html: `<p>Hi ${name},</p><p>We received a request to reset your password. Click the link below to set a new one:</p><p><a href="${resetUrl}" style="background:#2563eb;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;">Reset Password</a></p><p>This link expires in 1 hour. If you did not request this, you can safely ignore this email.</p><p>The Taxable AI Team</p>`,
+  });
+}
+
 export async function sendDocumentRequestEmail(
   to: string,
   clientName: string,
@@ -104,18 +110,6 @@ export async function sendDocumentRequestEmail(
     to,
     subject: `Document Required: ${requestedDoc}`,
     html: `<p>Hi ${clientName},</p><p>Your accountant has requested: <strong>${requestedDoc}</strong> for case <strong>${caseTitle}</strong>.</p><p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/client/cases/${caseId}">Upload Document</a></p><p>The Taxable AI Team</p>`,
-  });
-}
-
-export async function sendPasswordResetEmail(
-  to: string,
-  name: string,
-  resetUrl: string
-) {
-  return send({
-    to,
-    subject: "Reset your Taxable AI password",
-    html: `<p>Hi ${name},</p><p>We received a request to reset your password. Click the link below to set a new one:</p><p><a href="${resetUrl}">Reset Password</a></p><p>This link expires in 1 hour. If you did not request a password reset, you can safely ignore this email.</p><p>The Taxable AI Team</p>`,
   });
 }
 
