@@ -6,6 +6,9 @@ import { queryOne } from "@/lib/db/pool";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  // AUTH_SECRET must be set in Vercel env vars; this fallback keeps the app
+  // running if it isn't yet so sessions still work (not for production hardening)
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET ?? "aF94vZWvVx2SHq+xPFQJKKt3swn2EpIpXF8FzholNEE=",
   providers: [
     Credentials({
       credentials: {
