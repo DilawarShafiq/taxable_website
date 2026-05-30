@@ -35,7 +35,7 @@ export function Hero() {
             className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
           >
             Transform Your Finances with{" "}
-            <span className="text-primary">AI-Powered</span> Chartered Accountancy
+            <span className="text-primary">AI-Powered</span> Accountancy
           </motion.h1>
 
           {/* Subheadline */}
@@ -56,15 +56,15 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
           >
-            <Link href="/demo">
+            <Link href="/auth/register">
               <Button size="xl" className="w-full sm:w-auto">
-                Try AI Demo
+                Get Started Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link href="/contact">
+            <Link href="/demo">
               <Button size="xl" variant="outline" className="w-full sm:w-auto">
-                Get a Quote
+                Try AI Demo
               </Button>
             </Link>
           </motion.div>
