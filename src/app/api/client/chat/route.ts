@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
-import { auth } from "@/auth";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { queryOne } from "@/lib/db/pool";
 import { claude, CLAUDE_MODEL, PARAMS } from "@/lib/claude/client";
 import { buildSystemPrompt } from "@/lib/agents/orchestrator";
@@ -14,7 +15,7 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) {
     return new Response(JSON.stringify({ error: "Unauthorised" }), { status: 401 });
   }
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
         `SELECT c.jurisdictions, c.business_type, c.company_name, p.full_name
          FROM clients c JOIN profiles p ON p.id = c.profile_id
          WHERE c.profile_id = $1`,
-        [session.user.uid ?? session.user.id]
+        [session.user.id]
       );
       if (clientRow) {
         if (!clientJurisdictions.length) clientJurisdictions = clientRow.jurisdictions ?? [];

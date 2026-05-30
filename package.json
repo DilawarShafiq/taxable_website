@@ -16,6 +16,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/xlsx": "^0.0.35",
     "bcryptjs": "^3.0.3",
+    "better-auth": "^1.6.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "firebase": "^12.13.0",

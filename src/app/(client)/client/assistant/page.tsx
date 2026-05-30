@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import {
   Send, Bot, ChevronDown, ChevronRight, RotateCcw, Paperclip, X,
   Sparkles, FileText, Shield, TrendingUp, Scale, Copy, Check,

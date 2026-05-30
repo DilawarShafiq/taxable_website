@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 import { Suspense, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signUp, signIn } from "@/lib/auth-client";
 
 function RegisterForm() {
   const searchParams = useSearchParams();
@@ -33,33 +33,27 @@ function RegisterForm() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-          fullName: form.fullName,
-        }),
+      // Register via Better Auth
+      const { error: signUpError } = await signUp.email({
+        email: form.email,
+        password: form.password,
+        name: form.fullName,
+        fetchOptions: { throw: false },
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Registration failed");
+      if (signUpError) {
+        setError(signUpError.message ?? "Registration failed");
         setLoading(false);
         return;
       }
 
-      // Auto sign in after registration
-      const result = await signIn("credentials", {
-        email: form.email,
-        password: form.password,
-        redirect: false,
+      // Also upsert into profiles table for role/CA data
+      await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, password: form.password, fullName: form.fullName }),
       });
-      if (result?.error) {
-        router.push("/auth/login");
-        return;
-      }
-      router.push(data.role === "admin" ? "/admin/dashboard" : "/client/dashboard");
+
+      router.push("/client/dashboard");
       router.refresh();
     } catch {
       setError("Registration failed");

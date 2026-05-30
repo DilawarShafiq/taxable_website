@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { resetPassword } from "@/lib/auth-client";
 
 function SetPasswordForm() {
   const router = useRouter();
@@ -35,13 +36,12 @@ function SetPasswordForm() {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/set-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
+      const { error: resetErr } = await resetPassword({
+        token,
+        newPassword: password,
+        fetchOptions: { throw: false },
       });
-      const json = await res.json();
-      if (!res.ok || json.error) { setError(json.error ?? "Failed to reset password"); return; }
+      if (resetErr) { setError(resetErr.message ?? "Failed to reset password"); return; }
       setDone(true);
       setTimeout(() => router.push("/auth/login"), 2000);
     } catch {

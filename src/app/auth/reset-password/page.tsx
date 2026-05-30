@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import Link from "next/link";
+import { requestPasswordReset } from "@/lib/auth-client";
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState("");
@@ -14,10 +15,9 @@ export default function ResetPasswordPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+      await requestPasswordReset({
+        email,
+        redirectTo: `${window.location.origin}/auth/set-password`,
       });
     } catch { /* silently ignore — always show success */ }
     setSent(true);

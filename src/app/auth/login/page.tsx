@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "@/lib/auth-client";
 
 function LoginForm() {
   const router = useRouter();
@@ -22,13 +22,15 @@ function LoginForm() {
     setError(null);
     setLoading(true);
     try {
-      const result = await signIn("credentials", { email, password, redirect: false });
-      if (result?.error) {
+      const result = await signIn.email({ email, password, fetchOptions: { throw: false } });
+      if ((result as any)?.error) {
         setError("Invalid email or password");
         setLoading(false);
         return;
       }
-      const session = await getSession();
+      // Fetch session to determine role
+      const res = await fetch("/api/auth/get-session");
+      const session = await res.json();
       const role = session?.user?.role ?? "client";
       if (["staff", "admin", "ceo"].includes(role)) {
         router.push("/admin/dashboard");

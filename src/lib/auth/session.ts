@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export interface SessionUser {
   uid: string;
@@ -8,12 +9,18 @@ export interface SessionUser {
 }
 
 export async function getSession(): Promise<SessionUser | null> {
-  const session = await auth();
-  if (!session?.user) return null;
-  return {
-    uid: session.user.uid ?? session.user.email ?? "",
-    email: session.user.email ?? "",
-    role: session.user.role ?? "client",
-    fullName: session.user.name ?? "",
-  };
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session?.user) return null;
+    return {
+      uid: session.user.id,
+      email: session.user.email ?? "",
+      role: (session.user as { role?: string }).role ?? "client",
+      fullName: session.user.name ?? "",
+    };
+  } catch {
+    return null;
+  }
 }

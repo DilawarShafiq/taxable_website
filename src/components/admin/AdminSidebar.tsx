@@ -8,7 +8,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["staff", "admin", "ceo"] },
@@ -102,7 +102,7 @@ function NavContent({
           </div>
         </div>
         <button
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={() => signOut({ fetchOptions: { onSuccess: () => { window.location.href = "/"; } } })}
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-800 hover:text-slate-200 w-full transition-colors"
         >
           <LogOut className="h-4 w-4" />

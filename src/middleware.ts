@@ -1,24 +1,30 @@
-import { auth } from "@/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default auth(function proxy(req) {
-  const { pathname } = req.nextUrl;
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-  if (
-    (pathname.startsWith("/client") || pathname.startsWith("/admin")) &&
-    !req.auth
-  ) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/auth/login";
-    url.searchParams.set("redirectTo", pathname);
-    return NextResponse.redirect(url);
+  const isProtected =
+    pathname.startsWith("/client") || pathname.startsWith("/admin");
+
+  if (!isProtected) return NextResponse.next();
+
+  // Better Auth sets this cookie on login
+  const sessionCookie =
+    request.cookies.get("better-auth.session_token") ??
+    request.cookies.get("__Secure-better-auth.session_token");
+
+  if (!sessionCookie) {
+    const loginUrl = new URL("/auth/login", request.url);
+    loginUrl.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/auth|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

@@ -8,7 +8,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 
 const navSections = [
   {
@@ -134,7 +134,7 @@ function NavContent({
           </div>
         </div>
         <button
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={() => signOut({ fetchOptions: { onSuccess: () => { window.location.href = "/"; } } })}
           className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-500 hover:bg-slate-800/50 hover:text-slate-300 w-full transition-colors"
         >
           <LogOut className="h-3.5 w-3.5" />

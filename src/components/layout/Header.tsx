@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Menu, X, ChevronDown, LayoutDashboard, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut } from "@/lib/auth-client";
 
 const navigation = [
   {
@@ -55,7 +55,7 @@ function UserMenu() {
     );
   }
 
-  const isAdmin = ["admin", "staff", "ceo"].includes(session.user.role ?? "");
+  const isAdmin = ["admin", "staff", "ceo"].includes(((session.user as any).role as string | undefined) ?? "");
   const dashboardHref = isAdmin ? "/admin/dashboard" : "/client/dashboard";
   const name = session.user.name ?? session.user.email ?? "Account";
 
@@ -78,7 +78,7 @@ function UserMenu() {
           <div className="px-3 py-2 text-xs text-muted-foreground border-b mb-1">
             {session.user.email}
             <span className="ml-1 rounded bg-muted px-1 py-0.5 font-medium capitalize">
-              {session.user.role}
+              {((session.user as any).role as string | undefined)}
             </span>
           </div>
           <Link
@@ -99,7 +99,7 @@ function UserMenu() {
           </Link>
           <div className="border-t mt-1 pt-1">
             <button
-              onClick={() => signOut({ callbackUrl: "/" })}
+              onClick={() => signOut({ fetchOptions: { onSuccess: () => { window.location.href = "/"; } } })}
               className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
             >
               <LogOut className="h-4 w-4" />
@@ -226,7 +226,7 @@ export function Header() {
               {session?.user ? (
                 <>
                   <Link
-                    href={["admin", "staff", "ceo"].includes(session.user.role ?? "") ? "/admin/dashboard" : "/client/dashboard"}
+                    href={["admin", "staff", "ceo"].includes(((session.user as any).role as string | undefined) ?? "") ? "/admin/dashboard" : "/client/dashboard"}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Button variant="outline" className="w-full" size="lg">
@@ -237,7 +237,7 @@ export function Header() {
                     variant="ghost"
                     className="w-full text-red-600"
                     size="lg"
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => signOut({ fetchOptions: { onSuccess: () => { window.location.href = "/"; } } })}
                   >
                     <LogOut className="mr-2 h-4 w-4" /> Sign Out
                   </Button>

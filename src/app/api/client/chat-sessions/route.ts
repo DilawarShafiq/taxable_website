@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { queryOne, query } from "@/lib/db/pool";
 
 // GET /api/client/chat-sessions — list sessions for current user
 export async function GET(req: NextRequest) {
-  const session = await auth();
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
   const sessionId = searchParams.get("sessionId");
-  const uid = session.user.uid ?? session.user.id;
+  const uid = session.user.id;
 
   try {
     if (sessionId) {
@@ -57,10 +58,10 @@ export async function GET(req: NextRequest) {
 
 // POST /api/client/chat-sessions — create session or append messages
 export async function POST(req: NextRequest) {
-  const session = await auth();
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
 
-  const uid = session.user.uid ?? session.user.id;
+  const uid = session.user.id;
 
   try {
     const body = await req.json() as {
