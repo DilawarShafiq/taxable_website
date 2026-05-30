@@ -35,10 +35,10 @@ const services = [
 ];
 
 const stats = [
-  { value: "150+", label: "Pakistani Clients" },
-  { value: "PKR 50B+", label: "Assets Under Management" },
-  { value: "15+", label: "Years in Pakistan" },
-  { value: "100%", label: "FBR Compliance Rate" },
+  { value: "ICAP", label: "Certified Professionals" },
+  { value: "FBR", label: "Registered Tax Agents" },
+  { value: "5", label: "Countries Covered" },
+  { value: "AI", label: "Powered Platform" },
 ];
 
 const industries = [
@@ -224,16 +224,14 @@ export default function PakistanPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary" />
-                        <a href="tel:+923001234567" className="hover:text-primary">
-                          +92 300 1234567
-                        </a>
+                        <span className="text-muted-foreground">Contact via email</span>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
-                        <a href="mailto:dilawar.gopang@gmail.com" className="hover:text-primary">
-                          dilawar.gopang@gmail.com
+                        <a href="mailto:pk@taxable.ai" className="hover:text-primary">
+                          pk@taxable.ai
                         </a>
                       </div>
                       <div className="flex items-center gap-3">

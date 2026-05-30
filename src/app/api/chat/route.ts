@@ -1,7 +1,9 @@
 import { CHATBOT_SYSTEM_PROMPT } from "@/lib/claude/prompts/chatbot";
-import { claude, CLAUDE_MODEL } from "@/lib/claude/client";
+import { claude } from "@/lib/claude/client";
 import { query } from "@/lib/db/pool";
 import { z } from "zod";
+
+const HAIKU_MODEL = "claude-haiku-4-5-20251001";
 
 const bodySchema = z.object({
   messages: z.array(
@@ -10,7 +12,7 @@ const bodySchema = z.object({
       content: z.string(),
     })
   ),
-  jurisdiction: z.enum(["usa", "uk", "saudi", "pakistan"]).optional(),
+  jurisdiction: z.enum(["usa", "uk", "saudi", "pakistan", "uae"]).optional(),
 });
 
 export async function POST(req: Request) {
@@ -23,8 +25,9 @@ export async function POST(req: Request) {
       : CHATBOT_SYSTEM_PROMPT;
 
     const stream = await claude.messages.stream({
-      model: CLAUDE_MODEL,
-      max_tokens: 1024,
+      model: HAIKU_MODEL,
+      temperature: 0.3,
+      max_tokens: 2048,
       system: systemPrompt,
       messages,
     });

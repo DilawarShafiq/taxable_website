@@ -30,7 +30,7 @@ Given historical price data for one or more assets, generate a structured JSON f
 - Base outlook ranges on historical volatility, macro trends, and current market conditions as of your knowledge cutoff
 - Percentages are cumulative returns from today, not annualised
 - Low = bear case (20th percentile), Mid = base case (50th), High = bull case (80th percentile)
-- Tailor tax_reminder to the user's stated jurisdiction (usa/uk/saudi/pakistan)
+- Tailor tax_reminder to the user's stated jurisdiction (usa/uk/saudi/pakistan/uae)
 - Acknowledge uncertainty — wider ranges for crypto and real estate vs established stock indices
 - Reference macro factors: central bank policy, inflation, geopolitical context relevant to the jurisdiction
 

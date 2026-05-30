@@ -4,26 +4,23 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import Link from "next/link";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "@/lib/firebase/client";
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
-
     try {
-      await sendPasswordResetEmail(auth, email);
-      setSent(true);
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Failed to send reset email");
-    }
+      await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+    } catch { /* silently ignore — always show success */ }
+    setSent(true);
     setLoading(false);
   };
 
@@ -36,9 +33,12 @@ export default function ResetPasswordPage() {
               <div className="text-4xl mb-4">✉️</div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Check your email</h1>
               <p className="text-gray-500 text-sm">
-                We&apos;ve sent a password reset link to <strong>{email}</strong>
+                If an account exists for <strong>{email}</strong>, a reset link is on its way.
               </p>
-              <Link href="/auth/login" className="mt-6 inline-block text-blue-600 hover:underline text-sm">
+              <Link
+                href="/auth/login"
+                className="mt-6 inline-block text-blue-600 hover:underline text-sm"
+              >
                 Back to sign in
               </Link>
             </div>
@@ -46,7 +46,9 @@ export default function ResetPasswordPage() {
             <>
               <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-900">Reset password</h1>
-                <p className="text-gray-500 mt-1 text-sm">Enter your email to receive a reset link</p>
+                <p className="text-gray-500 mt-1 text-sm">
+                  Enter your email to receive a reset link
+                </p>
               </div>
 
               <form onSubmit={handleReset} className="space-y-4">
@@ -60,13 +62,6 @@ export default function ResetPasswordPage() {
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-
-                {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-3 py-2">
-                    {error}
-                  </div>
-                )}
-
                 <button
                   type="submit"
                   disabled={loading}

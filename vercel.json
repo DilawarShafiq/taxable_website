@@ -2,6 +2,12 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "regions": ["iad1"]
+  "installCommand": "npm install --legacy-peer-deps",
+  "regions": ["iad1"],
+  "crons": [
+    {
+      "path": "/api/assets/refresh",
+      "schedule": "0 2 * * 1"
+    }
+  ]
 }

@@ -12,8 +12,8 @@ export async function GET() {
     return NextResponse.json({
       clients: parseInt(clients?.count ?? "0"),
       casesFiled: parseInt(filed?.count ?? "0"),
-      jurisdictions: 4,
-      yearsExperience: 15,
+      jurisdictions: 5,
+      yearsExperience: 1,
     });
   } catch {
     return NextResponse.json({ clients: 0, casesFiled: 0, jurisdictions: 4, yearsExperience: 15 });

@@ -98,7 +98,7 @@ export default function AccountingPage() {
                 <Clock className="h-12 w-12 text-green-500 mx-auto mb-4" />
                 <h3 className="font-semibold text-lg mb-2">Time Savings</h3>
                 <p className="text-muted-foreground">
-                  Automate 80% of manual accounting tasks
+                  Automate repetitive manual accounting tasks
                 </p>
               </div>
             </AnimatedSection>

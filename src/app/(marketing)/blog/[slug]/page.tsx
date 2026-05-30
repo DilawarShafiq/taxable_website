@@ -25,7 +25,7 @@ const blogPosts: Record<string, {
     excerpt: "The UAE's new 9% corporate tax regime is now in effect. Learn about registration requirements, exemptions, compliance deadlines, and how AI can streamline your tax processes.",
     category: "Taxation",
     region: "UAE",
-    author: "Rashid Khalifa",
+    author: "Taxable AI Team",
     authorRole: "Tax Director, UAE",
     date: "January 2, 2026",
     readTime: "12 min read",
@@ -97,15 +97,15 @@ The UAE's corporate tax regime represents a new era for businesses operating in 
 
 ---
 
-*Need help with UAE Corporate Tax? Contact our Dubai team at dilawar.gopang@gmail.com for a free consultation.*
+*Need help with UAE Corporate Tax? Contact our Dubai team at hello@taxable.ai for a free consultation.*
     `,
   },
   "ai-document-processing-accounting": {
     title: "How AI Document Processing is Revolutionizing Accounting",
     excerpt: "Discover how artificial intelligence is transforming bank statement analysis, invoice processing, and financial data extraction for modern businesses.",
     category: "AI & Technology",
-    author: "Dr. James Chen",
-    authorRole: "Chief Technology Officer",
+    author: "Taxable AI Team",
+    authorRole: "Head of AI Engineering",
     date: "January 1, 2026",
     readTime: "8 min read",
     tags: ["AI", "Document Processing", "Automation", "Machine Learning"],
@@ -168,13 +168,13 @@ Our AI Document Agent can process bank statements in seconds:
 - Reduced staffing requirements
 - Faster client turnaround
 
-## Real-World Results
+## Why AI Document Processing Matters
 
-Businesses using Taxable AI's document processing report:
+AI-powered document processing delivers:
 
-- **60% reduction** in processing time
-- **99.5% accuracy** in data extraction
-- **40% cost savings** on document handling
+- Significant reduction in manual data entry time
+- Consistent, accurate data extraction
+- Faster month-end close and audit readiness
 
 ## Getting Started
 
@@ -182,7 +182,7 @@ Try our free demo at [/demo](/demo) to experience AI document processing firstha
 
 ---
 
-*Ready to transform your document processing? Contact us at dilawar.gopang@gmail.com*
+*Ready to transform your document processing? Contact us at hello@taxable.ai*
     `,
   },
   "pakistan-fbr-tax-updates-2026": {
@@ -190,8 +190,8 @@ Try our free demo at [/demo](/demo) to experience AI document processing firstha
     excerpt: "A comprehensive overview of the latest Federal Board of Revenue tax regulations, filing deadlines, and compliance requirements for Pakistani businesses.",
     category: "Taxation",
     region: "Pakistan",
-    author: "Bilal Ahmed",
-    authorRole: "Tax Partner, Pakistan",
+    author: "Taxable AI Team",
+    authorRole: "Tax Director, Pakistan",
     date: "December 28, 2025",
     readTime: "10 min read",
     tags: ["FBR", "Pakistan Tax", "Income Tax", "Sales Tax", "Withholding Tax"],
@@ -276,7 +276,7 @@ Our ICAP-certified team provides:
 
 ---
 
-*Need FBR compliance support? Contact our Pakistan office at dilawar.gopang@gmail.com*
+*Need FBR compliance support? Contact our Pakistan office at hello@taxable.ai*
     `,
   },
   "uk-r-and-d-tax-credits-guide": {
@@ -284,8 +284,8 @@ Our ICAP-certified team provides:
     excerpt: "Learn how to identify qualifying R&D activities, calculate your claim, and navigate HMRC requirements to maximize your innovation tax relief.",
     category: "Taxation",
     region: "UK",
-    author: "Sarah Mitchell",
-    authorRole: "Director, UK Operations",
+    author: "Taxable AI Team",
+    authorRole: "Tax Director, UK",
     date: "December 25, 2025",
     readTime: "15 min read",
     tags: ["R&D Tax Credits", "HMRC", "Innovation", "Tax Relief", "UK Tax"],
@@ -371,15 +371,15 @@ Taxable AI helps UK companies maximize their R&D claims:
 - **Submit** to HMRC
 - **Defend** claims if enquired
 
-### Our Track Record
+### Our Approach
 
-- £50M+ claimed for clients
-- 100% success rate on submissions
-- Average claim: £75,000
+- Identify all qualifying activities systematically
+- Prepare robust technical narratives
+- Prepare and submit to HMRC
 
 ---
 
-*Think you might qualify for R&D tax credits? Contact dilawar.gopang@gmail.com for a free assessment.*
+*Think you might qualify for R&D tax credits? Contact hello@taxable.ai for a free assessment.*
     `,
   },
   "zatca-einvoicing-phase-2": {
@@ -387,7 +387,7 @@ Taxable AI helps UK companies maximize their R&D claims:
     excerpt: "Everything you need to know about Saudi Arabia's FATOORA e-invoicing Phase 2 integration, including technical specifications and compliance tips.",
     category: "Regional Updates",
     region: "Saudi Arabia",
-    author: "Mohammed Al-Rashid",
+    author: "Taxable AI Team",
     authorRole: "VAT Director, Saudi Arabia",
     date: "December 22, 2025",
     readTime: "11 min read",
@@ -479,7 +479,7 @@ ZATCA can impose significant penalties:
 
 ---
 
-*Need ZATCA e-invoicing support? Reach our Riyadh team at dilawar.gopang@gmail.com*
+*Need ZATCA e-invoicing support? Reach our Riyadh team at hello@taxable.ai*
     `,
   },
 };

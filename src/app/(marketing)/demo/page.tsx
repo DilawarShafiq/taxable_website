@@ -25,40 +25,8 @@ interface ProcessingResult {
     transactionCount: number;
   };
   categories: { category: string; amount: number; percentage: number }[];
+  insights?: string[];
 }
-
-// Mock processing function - simulates AI processing
-const mockProcessDocument = async (): Promise<ProcessingResult> => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  return {
-    transactions: [
-      { date: "2026-01-02", description: "SALARY DEPOSIT", amount: 5000, type: "credit", category: "Income" },
-      { date: "2026-01-03", description: "AMAZON.COM", amount: -89.99, type: "debit", category: "Shopping" },
-      { date: "2026-01-04", description: "ELECTRICITY BILL", amount: -125.50, type: "debit", category: "Utilities" },
-      { date: "2026-01-05", description: "GROCERY STORE", amount: -156.32, type: "debit", category: "Groceries" },
-      { date: "2026-01-06", description: "GAS STATION", amount: -45.00, type: "debit", category: "Transport" },
-      { date: "2026-01-07", description: "RESTAURANT", amount: -67.80, type: "debit", category: "Dining" },
-      { date: "2026-01-08", description: "FREELANCE PAYMENT", amount: 1200, type: "credit", category: "Income" },
-      { date: "2026-01-09", description: "NETFLIX", amount: -15.99, type: "debit", category: "Entertainment" },
-    ],
-    summary: {
-      totalCredits: 6200,
-      totalDebits: 500.60,
-      netChange: 5699.40,
-      transactionCount: 8,
-    },
-    categories: [
-      { category: "Income", amount: 6200, percentage: 92.5 },
-      { category: "Shopping", amount: 89.99, percentage: 1.3 },
-      { category: "Utilities", amount: 125.50, percentage: 1.9 },
-      { category: "Groceries", amount: 156.32, percentage: 2.3 },
-      { category: "Transport", amount: 45.00, percentage: 0.7 },
-      { category: "Dining", amount: 67.80, percentage: 1.0 },
-      { category: "Entertainment", amount: 15.99, percentage: 0.3 },
-    ],
-  };
-};
 
 export default function DemoPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -83,10 +51,7 @@ export default function DemoPage() {
     setDragActive(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0];
-      if (droppedFile.type === "application/pdf") {
-        setFile(droppedFile);
-      }
+      setFile(e.dataTransfer.files[0]);
     }
   }, []);
 
@@ -117,9 +82,13 @@ export default function DemoPage() {
     }
 
     try {
-      const data = await mockProcessDocument();
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (!res.ok || json.error) throw new Error(json.message ?? "Processing failed");
       setProgress(100);
-      setResult(data);
+      setResult(json.result);
       setStatus("complete");
     } catch {
       setStatus("error");
@@ -144,8 +113,8 @@ export default function DemoPage() {
               Try Our AI Document Processing
             </h1>
             <p className="text-xl text-muted-foreground mb-6">
-              Upload a bank statement PDF and watch our AI instantly extract, categorize,
-              and summarize your transactions. No signup required.
+              Upload any financial document — bank statements, invoices, Excel files, or images —
+              and watch our AI instantly extract, categorize, and analyse your transactions. No signup required.
             </p>
             <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
               <span className="flex items-center gap-2">
@@ -180,18 +149,18 @@ export default function DemoPage() {
                     >
                       <Upload className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
                       <h3 className="text-xl font-semibold mb-2">
-                        {file ? file.name : "Drop your bank statement here"}
+                        {file ? file.name : "Drop your financial document here"}
                       </h3>
                       <p className="text-muted-foreground mb-6">
                         {file
                           ? `${(file.size / 1024 / 1024).toFixed(2)} MB`
-                          : "PDF files up to 25MB supported"}
+                          : "PDF, Excel (.xlsx), CSV, or images (JPG/PNG) up to 25MB"}
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <label>
                           <input
                             type="file"
-                            accept=".pdf"
+                            accept=".pdf,.xlsx,.xls,.csv,.txt,.jpg,.jpeg,.png,.webp"
                             onChange={handleFileChange}
                             className="hidden"
                           />
@@ -208,7 +177,7 @@ export default function DemoPage() {
                       </div>
                     </div>
                     <p className="text-center text-sm text-muted-foreground mt-4">
-                      For demo purposes, any PDF will show sample results
+                      Your document is processed securely and not stored.
                     </p>
                   </CardContent>
                 </Card>
@@ -289,6 +258,25 @@ export default function DemoPage() {
                       </CardContent>
                     </Card>
                   </div>
+
+                  {/* AI Insights */}
+                  {result.insights && result.insights.length > 0 && (
+                    <Card className="border-primary/20 bg-primary/5">
+                      <CardContent className="p-6">
+                        <h4 className="font-semibold mb-3 flex items-center gap-2">
+                          <span className="text-primary">✦</span> AI Insights
+                        </h4>
+                        <ul className="space-y-2">
+                          {result.insights.map((insight, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm">
+                              <span className="text-primary font-bold mt-0.5">{i + 1}.</span>
+                              <span>{insight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  )}
 
                   {/* Transactions Table */}
                   <Card>

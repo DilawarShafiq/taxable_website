@@ -3,18 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getSession } from "@/lib/auth/session";
 import { query, queryOne } from "@/lib/db/pool";
-
-const STATUS_LABELS: Record<string, string> = {
-  open: "Open", in_review: "In Review", pending_docs: "Awaiting Docs", filed: "Filed", closed: "Closed",
-};
-const STATUS_COLORS: Record<string, string> = {
-  open: "bg-blue-100 text-blue-700", in_review: "bg-yellow-100 text-yellow-700",
-  pending_docs: "bg-orange-100 text-orange-700", filed: "bg-green-100 text-green-700", closed: "bg-gray-100 text-gray-600",
-};
-const FLAGS: Record<string, string> = { usa: "🇺🇸", uk: "🇬🇧", saudi: "🇸🇦", pakistan: "🇵🇰" };
-const TYPE_LABELS: Record<string, string> = {
-  tax_filing: "Tax Filing", audit: "Audit", accounting: "Accounting", consultation: "Consultation",
-};
+import { JURISDICTION_FLAGS, CASE_STATUS_LABELS, CASE_STATUS_COLORS, CASE_TYPE_LABELS } from "@/lib/constants";
 
 type CaseRow = { id: string; title: string; type: string; status: string; jurisdiction: string; tax_year: string | null; due_date: string | null };
 
@@ -47,16 +36,16 @@ export default async function ClientCasesPage() {
                 <Link key={c.id} href={`/client/cases/${c.id}`}
                   className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4 hover:border-blue-300 hover:shadow-sm transition group">
                   <div className="flex items-center gap-4">
-                    <span className="text-2xl">{FLAGS[c.jurisdiction] ?? "📁"}</span>
+                    <span className="text-2xl">{JURISDICTION_FLAGS[c.jurisdiction] ?? "📁"}</span>
                     <div>
                       <p className="font-semibold text-gray-900 text-sm group-hover:text-blue-700">{c.title}</p>
                       <p className="text-xs text-gray-400">
-                        {TYPE_LABELS[c.type] ?? c.type} · {c.tax_year ?? "—"}{c.due_date ? ` · Due ${new Date(c.due_date).toLocaleDateString()}` : ""}
+                        {CASE_TYPE_LABELS[c.type] ?? c.type} · {c.tax_year ?? "—"}{c.due_date ? ` · Due ${new Date(c.due_date).toLocaleDateString()}` : ""}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_COLORS[c.status]}`}>{STATUS_LABELS[c.status]}</span>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${CASE_STATUS_COLORS[c.status]}`}>{CASE_STATUS_LABELS[c.status]}</span>
                     <ArrowRight className="h-4 w-4 text-gray-300 group-hover:text-blue-500" />
                   </div>
                 </Link>

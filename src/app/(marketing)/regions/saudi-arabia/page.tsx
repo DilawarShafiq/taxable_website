@@ -35,10 +35,10 @@ const services = [
 ];
 
 const stats = [
-  { value: "60+", label: "Saudi Clients" },
-  { value: "SAR 2B+", label: "Assets Under Audit" },
-  { value: "100%", label: "ZATCA Compliance" },
-  { value: "E-Invoice", label: "Certified" },
+  { value: "SOCPA", label: "Certified Professionals" },
+  { value: "ZATCA", label: "Registered Agents" },
+  { value: "VAT+Zakat", label: "Full Compliance" },
+  { value: "FATOORA", label: "E-Invoice Certified" },
 ];
 
 const industries = [
@@ -248,16 +248,14 @@ export default function SaudiArabiaPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary" />
-                        <a href="tel:+966111234567" className="hover:text-primary">
-                          +966 11 123 4567
-                        </a>
+                        <span className="text-muted-foreground">Contact via email</span>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
-                        <a href="mailto:dilawar.gopang@gmail.com" className="hover:text-primary">
-                          dilawar.gopang@gmail.com
+                        <a href="mailto:sa@taxable.ai" className="hover:text-primary">
+                          sa@taxable.ai
                         </a>
                       </div>
                       <div className="flex items-center gap-3">

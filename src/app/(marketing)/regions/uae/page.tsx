@@ -35,10 +35,10 @@ const services = [
 ];
 
 const stats = [
-  { value: "80+", label: "UAE Clients" },
-  { value: "AED 5B+", label: "Assets Under Management" },
-  { value: "100%", label: "FTA Compliance" },
-  { value: "All", label: "Emirates Covered" },
+  { value: "FTA", label: "Registered Agents" },
+  { value: "9% CIT", label: "Expertise" },
+  { value: "40+", label: "Free Zones Covered" },
+  { value: "AI", label: "Powered Platform" },
 ];
 
 const industries = [
@@ -270,16 +270,14 @@ export default function UAEPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary" />
-                        <a href="tel:+97141234567" className="hover:text-primary">
-                          +971 4 123 4567
-                        </a>
+                        <span className="text-muted-foreground">Contact via email</span>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
-                        <a href="mailto:dilawar.gopang@gmail.com" className="hover:text-primary">
-                          dilawar.gopang@gmail.com
+                        <a href="mailto:uae@taxable.ai" className="hover:text-primary">
+                          uae@taxable.ai
                         </a>
                       </div>
                       <div className="flex items-center gap-3">

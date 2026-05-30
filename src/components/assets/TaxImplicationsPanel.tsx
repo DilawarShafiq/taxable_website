@@ -2,6 +2,7 @@
 
 import type { AssetDefinition } from "@/types/assets";
 import type { Jurisdiction, AssetType } from "@/types/database";
+import { JURISDICTION_NAMES, JURISDICTION_FLAGS } from "@/lib/constants";
 
 // Inline tax summaries to avoid JSON import issues in client components
 const TAX_SUMMARIES: Record<Jurisdiction, Record<AssetType, { rate: string; notes: string; authority: string; url: string }>> = {
@@ -25,12 +26,17 @@ const TAX_SUMMARIES: Record<Jurisdiction, Record<AssetType, { rate: string; note
     crypto: { rate: "Not specifically regulated", notes: "May be taxed as 'other income' at slab rates (up to 35%). Seek specialist advice.", authority: "FBR", url: "https://fbr.gov.pk" },
     real_estate: { rate: "15% < 1yr → 0% > 4yrs (filer)", notes: "Section 7E deemed income: 1% of FBR value annually. Non-filers pay 3% WHT on purchase.", authority: "FBR", url: "https://fbr.gov.pk" },
   },
+  uae: {
+    stock: { rate: "0% (individuals)", notes: "No personal income tax or CGT for individuals. Corporate investors: 9% CIT if taxable profits exceed AED 375,000. UAE nationals: no CGT on Tadawul or DFM listed stocks.", authority: "FTA", url: "https://tax.gov.ae" },
+    crypto: { rate: "0% (individuals)", notes: "No personal CGT on crypto for individuals. No specific UAE crypto tax law yet. Corporate investors subject to 9% CIT above AED 375k threshold.", authority: "FTA", url: "https://tax.gov.ae" },
+    real_estate: { rate: "DLD fee: 4% + 0% CGT", notes: "No personal CGT on property. Dubai: 4% DLD registration fee on purchase (buyer). No annual property tax. Rental income: 0% tax for individuals.", authority: "FTA / DLD", url: "https://tax.gov.ae" },
+  },
 };
 
-const JURISDICTION_NAMES: Record<Jurisdiction, string> = {
-  usa: "🇺🇸 United States", uk: "🇬🇧 United Kingdom",
-  saudi: "🇸🇦 Saudi Arabia", pakistan: "🇵🇰 Pakistan",
-};
+// Build display name with flag for each jurisdiction
+const JURISDICTION_DISPLAY: Record<string, string> = Object.fromEntries(
+  Object.keys(JURISDICTION_NAMES).map((j) => [j, `${JURISDICTION_FLAGS[j] ?? ""} ${JURISDICTION_NAMES[j]}`])
+);
 
 interface TaxImplicationsPanelProps {
   selected: AssetDefinition[];
@@ -45,7 +51,7 @@ export function TaxImplicationsPanel({ selected, jurisdiction }: TaxImplications
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-lg font-semibold text-white">Tax Implications</h2>
-          <p className="text-sm text-gray-500">{JURISDICTION_NAMES[jurisdiction]}</p>
+          <p className="text-sm text-gray-500">{JURISDICTION_DISPLAY[jurisdiction]}</p>
         </div>
         <a href="/contact" className="text-xs text-indigo-400 hover:underline">
           Get personalised tax advice →

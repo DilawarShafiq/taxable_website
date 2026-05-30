@@ -20,26 +20,50 @@ export async function fetchCryptoHistory(symbol: string, range: string): Promise
   if (!coinId) throw new Error(`Unknown crypto symbol: ${symbol}`);
 
   const days = RANGE_DAYS[range] ?? 365;
-  const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}&interval=monthly`;
+  const apiKey = process.env.COINGECKO_API_KEY;
+
+  // Use weekly interval for > 3 months (CoinGecko auto-aggregates for long ranges)
+  const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`;
+
+  const headers: Record<string, string> = {
+    "Accept": "application/json",
+  };
+  if (apiKey) headers["x-cg-demo-api-key"] = apiKey;
 
   const res = await fetch(url, {
-    headers: process.env.COINGECKO_API_KEY
-      ? { "x-cg-demo-api-key": process.env.COINGECKO_API_KEY }
-      : {},
-    next: { revalidate: 900 }, // 15 min Next.js cache
+    headers,
+    next: { revalidate: 900 },
   });
+
+  if (res.status === 429) {
+    // Rate limited — try the pro endpoint if key exists
+    throw new Error("CoinGecko rate limit hit");
+  }
 
   if (!res.ok) throw new Error(`CoinGecko API error: ${res.status}`);
 
   const json = await res.json() as { prices: [number, number][] };
   const prices = json.prices;
-
   if (!prices.length) return [];
 
-  const startValue = prices[0][1];
-  return prices.map(([timestamp, value]) => ({
+  // Downsample to monthly to keep data manageable
+  const monthly = sampleMonthly(prices);
+  if (!monthly.length) return [];
+
+  const startValue = monthly[0][1];
+  return monthly.map(([timestamp, value]) => ({
     date: new Date(timestamp).toISOString().split("T")[0],
     value: Math.round(value * 100) / 100,
     pct_change: startValue > 0 ? Math.round(((value - startValue) / startValue) * 10000) / 100 : 0,
   }));
+}
+
+// Keep only the last data point per calendar month
+function sampleMonthly(prices: [number, number][]): [number, number][] {
+  const byMonth: Map<string, [number, number]> = new Map();
+  for (const [ts, price] of prices) {
+    const key = new Date(ts).toISOString().slice(0, 7); // YYYY-MM
+    byMonth.set(key, [ts, price]);
+  }
+  return Array.from(byMonth.values()).sort((a, b) => a[0] - b[0]);
 }

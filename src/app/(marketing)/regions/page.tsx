@@ -11,7 +11,11 @@ export const metadata: Metadata = {
   description: "Taxable AI operates across Pakistan, UK, USA, Saudi Arabia, and UAE. Find your local office for expert chartered accountancy services.",
 };
 
-const regions = [
+const regions: Array<{
+  name: string; flag: string; slug: string; city: string;
+  description: string; regulator: string; professionalBody: string;
+  email: string; phone: string | null; hours: string; color: string;
+}> = [
   {
     name: "Pakistan",
     flag: "🇵🇰",
@@ -20,8 +24,8 @@ const regions = [
     description: "FBR compliant taxation, ICAP-certified audits, and AI-powered accounting services for Pakistani businesses.",
     regulator: "Federal Board of Revenue (FBR)",
     professionalBody: "ICAP",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+92 300 1234567",
+    email: "pk@taxable.ai",
+    phone: null,
     hours: "Mon-Sat: 9:00 AM - 6:00 PM PKT",
     color: "from-green-500/20",
   },
@@ -33,8 +37,8 @@ const regions = [
     description: "HMRC compliant services, R&D tax credits, and Making Tax Digital ready solutions for UK companies.",
     regulator: "HMRC",
     professionalBody: "ICAEW / ACCA",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+44 20 1234 5678",
+    email: "uk@taxable.ai",
+    phone: null,
     hours: "Mon-Fri: 9:00 AM - 5:30 PM GMT",
     color: "from-blue-500/20",
   },
@@ -46,8 +50,8 @@ const regions = [
     description: "IRS compliant federal and multi-state taxation, GAAP audits, and CPA-certified financial services.",
     regulator: "Internal Revenue Service (IRS)",
     professionalBody: "AICPA",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+1 555 123 4567",
+    email: "usa@taxable.ai",
+    phone: null,
     hours: "Mon-Fri: 9:00 AM - 6:00 PM EST",
     color: "from-red-500/20",
   },
@@ -59,8 +63,8 @@ const regions = [
     description: "ZATCA VAT compliance, Zakat services, e-invoicing integration, and Vision 2030 aligned advisory.",
     regulator: "ZATCA",
     professionalBody: "SOCPA",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+966 11 123 4567",
+    email: "sa@taxable.ai",
+    phone: null,
     hours: "Sun-Thu: 8:00 AM - 5:00 PM AST",
     color: "from-green-600/20",
   },
@@ -72,8 +76,8 @@ const regions = [
     description: "FTA VAT & Corporate Tax compliance, Free Zone expertise, and business setup across all Emirates.",
     regulator: "Federal Tax Authority (FTA)",
     professionalBody: "AAA",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+971 4 123 4567",
+    email: "uae@taxable.ai",
+    phone: null,
     hours: "Sun-Thu: 9:00 AM - 6:00 PM GST",
     color: "from-red-600/20",
   },
@@ -170,12 +174,14 @@ export default function RegionsPage() {
                               {region.email}
                             </a>
                           </div>
+                          {region.phone && (
                           <div className="flex items-center gap-2">
                             <Phone className="h-4 w-4 text-primary" />
                             <a href={`tel:${region.phone.replace(/\s/g, '')}`} className="hover:text-primary">
                               {region.phone}
                             </a>
                           </div>
+                          )}
                           <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-primary" />
                             <span className="text-muted-foreground">{region.hours}</span>

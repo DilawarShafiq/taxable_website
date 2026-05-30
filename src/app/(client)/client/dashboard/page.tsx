@@ -1,163 +1,131 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { getSession } from "@/lib/auth/session";
-import { query, queryOne } from "@/lib/db/pool";
-import { CalendarDays, FileText, FolderKanban, Receipt, ArrowRight, AlertCircle } from "lucide-react";
 
-const STATUS_LABELS: Record<string, string> = {
-  open: "Open", in_review: "In Review", pending_docs: "Awaiting Documents", filed: "Filed", closed: "Closed",
-};
-const STATUS_COLORS: Record<string, string> = {
-  open: "bg-blue-100 text-blue-700", in_review: "bg-yellow-100 text-yellow-700",
-  pending_docs: "bg-orange-100 text-orange-700", filed: "bg-green-100 text-green-700", closed: "bg-gray-100 text-gray-600",
-};
-const JURISDICTION_FLAGS: Record<string, string> = { usa: "🇺🇸", uk: "🇬🇧", saudi: "🇸🇦", pakistan: "🇵🇰" };
+import { getSession } from "@/lib/auth/session";
+import { queryOne } from "@/lib/db/pool";
+import { Bot, ArrowRight, FileText, Receipt, Shield } from "lucide-react";
+import { JURISDICTION_FLAGS, JURISDICTION_NAMES } from "@/lib/constants";
 
 export default async function ClientDashboardPage() {
   const session = await getSession();
   if (!session) redirect("/auth/login");
 
-  const client = await queryOne<{ id: string; company_name: string | null; onboarded_at: string | null; jurisdictions: string[] }>(
-    "SELECT id, company_name, onboarded_at, jurisdictions FROM clients WHERE profile_id = $1",
+  const client = await queryOne<{
+    id: string;
+    company_name: string | null;
+    onboarded_at: string | null;
+    jurisdictions: string[];
+    business_type: string | null;
+  }>(
+    "SELECT id, company_name, onboarded_at, jurisdictions, business_type FROM clients WHERE profile_id = $1",
     [session.uid]
-  );
+  ).catch(() => null);
 
-  if (!client || !client.onboarded_at) return <OnboardingPrompt />;
+  const firstName = session.fullName?.split(" ")[0] ?? "there";
 
-  const [cases, pendingDocsRow, nextAppointment, invoices] = await Promise.all([
-    query<{ id: string; title: string; status: string; jurisdiction: string; due_date: string | null }>(
-      "SELECT id, title, status, jurisdiction, due_date FROM cases WHERE client_id = $1 AND status != 'closed' ORDER BY updated_at DESC LIMIT 5",
-      [client.id]
-    ),
-    queryOne<{ count: string }>("SELECT COUNT(*)::text AS count FROM documents WHERE client_id = $1 AND processing_status = 'pending'", [client.id]),
-    queryOne<{ id: string; starts_at: string; type: string | null }>(
-      "SELECT id, starts_at, type FROM appointments WHERE client_id = $1 AND status = 'scheduled' AND starts_at >= NOW() ORDER BY starts_at LIMIT 1",
-      [client.id]
-    ),
-    query<{ amount_usd: number }>("SELECT amount_usd FROM invoices WHERE client_id = $1 AND status IN ('sent','overdue')", [client.id]),
-  ]);
+  // Not onboarded — redirect immediately
+  if (!client || !client.onboarded_at) {
+    redirect("/client/onboarding");
+  }
 
-  const pendingDocsCount = parseInt(pendingDocsRow?.count ?? "0");
-  const outstandingBalance = invoices.reduce((sum, inv) => sum + Number(inv.amount_usd), 0);
+  const jurisdictions = client.jurisdictions ?? [];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-4xl px-6 py-8 lg:px-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
-          {client.company_name ? `${client.company_name}` : "Dashboard"}
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900">Welcome back, {firstName}</h1>
         <p className="text-gray-500 text-sm mt-1">
-          {(client.jurisdictions ?? []).map((j: string) => JURISDICTION_FLAGS[j] ?? j).join(" ")} — Here&apos;s your overview
+          {jurisdictions.map((j) => `${JURISDICTION_FLAGS[j] ?? ""} ${JURISDICTION_NAMES[j] ?? j}`).join(" · ")}
+          {client.company_name ? ` · ${client.company_name}` : ""}
         </p>
       </div>
 
-      {/* KPI cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard
-          icon={<FolderKanban className="h-5 w-5 text-blue-600" />}
-          label="Active Cases"
-          value={cases.length.toString()}
-          href="/client/cases"
-          color="blue"
-        />
-        <KPICard
-          icon={<FileText className="h-5 w-5 text-orange-600" />}
-          label="Docs Pending"
-          value={pendingDocsCount.toString()}
-          href="/client/documents"
-          color="orange"
-          alert={pendingDocsCount > 0}
-        />
-        <KPICard
-          icon={<CalendarDays className="h-5 w-5 text-green-600" />}
-          label="Next Appointment"
-          value={nextAppointment ? new Date(nextAppointment.starts_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "None"}
+      {/* Primary CTA — AI Assistant */}
+      <Link
+        href="/client/assistant"
+        className="group block bg-gradient-to-br from-slate-900 via-slate-800 to-violet-900 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition"
+      >
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
+              <Bot className="h-5 w-5 text-violet-300" />
+            </div>
+            <div>
+              <p className="font-semibold">AI Tax Assistant</p>
+              <p className="text-xs text-white/60">Powered by Claude</p>
+            </div>
+          </div>
+          <ArrowRight className="h-5 w-5 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+        </div>
+        <p className="text-sm text-white/70 mb-4 leading-relaxed">
+          Ask tax questions, upload documents for instant analysis, get jurisdiction-specific advice.
+          Available 24/7 with extended AI reasoning.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {jurisdictions.slice(0, 3).map((j) => (
+            <span key={j} className="text-[11px] bg-white/10 rounded-lg px-2.5 py-1">
+              {JURISDICTION_FLAGS[j]} {JURISDICTION_NAMES[j] ?? j} tax
+            </span>
+          ))}
+          <span className="text-[11px] bg-white/10 rounded-lg px-2.5 py-1">+ document analysis</span>
+        </div>
+      </Link>
 
-          href="/client/appointments"
-          color="green"
-        />
-        <KPICard
-          icon={<Receipt className="h-5 w-5 text-red-600" />}
-          label="Outstanding"
-          value={outstandingBalance > 0 ? `$${outstandingBalance.toFixed(0)}` : "Clear"}
-          href="/client/billing"
-          color={outstandingBalance > 0 ? "red" : "gray"}
-          alert={outstandingBalance > 0}
-        />
-      </div>
-
-      {/* Active cases */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Active Cases</h2>
-          <Link href="/client/cases" className="text-sm text-blue-600 hover:underline flex items-center gap-1">
-            View all <ArrowRight className="h-3 w-3" />
+      {/* Secondary cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-sm transition">
+          <FileText className="h-5 w-5 text-blue-500 mb-3" />
+          <p className="text-sm font-semibold text-gray-900 mb-1">Document Analysis</p>
+          <p className="text-xs text-gray-400 leading-relaxed">
+            Upload bank statements, invoices, or Excel files inside the AI assistant for instant extraction and insights.
+          </p>
+          <Link href="/client/assistant" className="text-xs text-blue-600 mt-3 inline-flex items-center gap-1 hover:gap-2 transition-all">
+            Open assistant <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
 
-        {cases.length === 0 ? (
-          <div className="border border-dashed border-gray-200 rounded-xl p-8 text-center text-gray-400">
-            <FolderKanban className="h-8 w-8 mx-auto mb-2 opacity-40" />
-            <p className="text-sm">No active cases. Our team will create one for you shortly.</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {cases.map((c) => (
-              <Link key={c.id} href={`/client/cases/${c.id}`}
-                className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4 hover:border-blue-300 hover:shadow-sm transition group">
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{JURISDICTION_FLAGS[c.jurisdiction] ?? "📁"}</span>
-                  <div>
-                    <p className="font-medium text-gray-900 group-hover:text-blue-700 text-sm">{c.title}</p>
-                    {c.due_date && (
-                      <p className="text-xs text-gray-400">Due {new Date(c.due_date).toLocaleDateString()}</p>
-                    )}
-                  </div>
-                </div>
-                <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_COLORS[c.status]}`}>
-                  {STATUS_LABELS[c.status]}
-                </span>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
-    </div>
-  );
-}
+        <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-sm transition">
+          <Receipt className="h-5 w-5 text-green-500 mb-3" />
+          <p className="text-sm font-semibold text-gray-900 mb-1">Billing</p>
+          <p className="text-xs text-gray-400 leading-relaxed">
+            View invoices from your accountant and track your payment history.
+          </p>
+          <Link href="/client/billing" className="text-xs text-blue-600 mt-3 inline-flex items-center gap-1 hover:gap-2 transition-all">
+            View billing <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
 
-function KPICard({ icon, label, value, href, color, alert }: {
-  icon: React.ReactNode; label: string; value: string; href: string;
-  color: string; alert?: boolean;
-}) {
-  const borderColor = alert ? "border-orange-200" : "border-gray-200";
-  return (
-    <Link href={href}
-      className={`bg-white border ${borderColor} rounded-xl p-4 hover:shadow-sm transition block relative`}>
-      {alert && (
-        <AlertCircle className="h-3.5 w-3.5 text-orange-500 absolute top-3 right-3" />
-      )}
-      <div className="mb-3">{icon}</div>
-      <p className="text-xl font-bold text-gray-900">{value}</p>
-      <p className="text-xs text-gray-500 mt-0.5">{label}</p>
-    </Link>
-  );
-}
+        <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-sm transition">
+          <Shield className="h-5 w-5 text-violet-500 mb-3" />
+          <p className="text-sm font-semibold text-gray-900 mb-1">Your Account</p>
+          <p className="text-xs text-gray-400 leading-relaxed">
+            {client.business_type ? `${client.business_type.replace("_", " ")} · ` : ""}
+            {jurisdictions.map((j) => JURISDICTION_FLAGS[j]).join(" ")} coverage.
+            {" "}Our team will reach out within 24 hours.
+          </p>
+          <p className="text-xs text-green-600 mt-3 font-medium">● Account active</p>
+        </div>
+      </div>
 
-function OnboardingPrompt() {
-  return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="max-w-md text-center">
-        <div className="text-5xl mb-4">👋</div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Taxable AI</h1>
-        <p className="text-gray-500 text-sm mb-8">
-          Complete your profile so our team can set up your account and start working on your cases.
-        </p>
-        <Link href="/client/onboarding"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-blue-700 transition">
-          Complete Setup
-        </Link>
+      {/* Quick prompts */}
+      <div className="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Quick questions to ask your AI</p>
+        <div className="grid sm:grid-cols-2 gap-2">
+          {[
+            ...jurisdictions.slice(0, 2).map((j) => `What are my key tax deadlines in ${JURISDICTION_NAMES[j] ?? j}?`),
+            "How do I reduce my tax bill legally?",
+            "Can you explain my options for business structure?",
+          ].map((q) => (
+            <Link
+              key={q}
+              href={`/client/assistant`}
+              className="text-sm text-gray-600 bg-white border border-gray-200 rounded-lg px-4 py-3 hover:border-blue-300 hover:text-gray-900 transition truncate"
+            >
+              {q}
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

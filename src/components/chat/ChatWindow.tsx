@@ -1,11 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, Bot, Sparkles } from "lucide-react";
+import { X, Bot, Sparkles, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { ChatMessage, Message } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
+import Link from "next/link";
+
+const MAX_FREE_MESSAGES = 5;
+const STORAGE_KEY = "taxable_chat_count";
 
 interface ChatWindowProps {
   onClose: () => void;
@@ -15,7 +19,8 @@ const initialMessages: Message[] = [
   {
     id: "welcome",
     role: "assistant",
-    content: "Hello! I'm the Taxable AI assistant. I can help you with questions about taxation, accounting, audits, and our services across Pakistan, UK, USA, Saudi Arabia, and UAE. How can I assist you today?",
+    content:
+      "Hello! I'm the Taxable AI assistant. I can help you with questions about taxation, accounting, audits, and our services across Pakistan, UK, USA, Saudi Arabia, and UAE. How can I assist you today?",
     timestamp: new Date(),
   },
 ];
@@ -30,17 +35,27 @@ const suggestedQuestions = [
 export function ChatWindow({ onClose }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [isLoading, setIsLoading] = useState(false);
+  const [msgCount, setMsgCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  useEffect(() => {
+    const stored = parseInt(localStorage.getItem(STORAGE_KEY) ?? "0", 10);
+    setMsgCount(stored);
+  }, []);
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const isLimitReached = msgCount >= MAX_FREE_MESSAGES;
+
   const handleSendMessage = async (content: string) => {
+    if (isLimitReached) return;
+
+    const newCount = msgCount + 1;
+    setMsgCount(newCount);
+    localStorage.setItem(STORAGE_KEY, String(newCount));
+
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: "user",
@@ -51,7 +66,6 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
     setMessages(updatedMessages);
     setIsLoading(true);
 
-    // Placeholder for streaming assistant message
     const assistantId = `assistant-${Date.now()}`;
     setMessages((prev) => [
       ...prev,
@@ -85,30 +99,27 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
               const { text } = JSON.parse(payload);
               accumulated += text;
               setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId ? { ...m, content: accumulated } : m
-                )
+                prev.map((m) => (m.id === assistantId ? { ...m, content: accumulated } : m))
               );
             } catch { /* skip malformed chunk */ }
           }
         }
       }
-    } catch (error) {
-      console.error("Chat error:", error);
+    } catch {
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantId
-            ? { ...m, content: "I'm having trouble connecting right now. Please email us at dilawar.gopang@gmail.com or try again in a moment." }
+            ? {
+                ...m,
+                content:
+                  "I'm having trouble connecting right now. Please email us at hello@taxable.ai or try again in a moment.",
+              }
             : m
         )
       );
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSuggestedQuestion = (question: string) => {
-    handleSendMessage(question);
   };
 
   return (
@@ -122,7 +133,9 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
             <h3 className="font-semibold">Taxable AI Assistant</h3>
             <p className="text-xs opacity-80 flex items-center gap-1">
               <Sparkles className="h-3 w-3" />
-              Powered by AI
+              {isLimitReached
+                ? "Free limit reached"
+                : `${MAX_FREE_MESSAGES - msgCount} free message${MAX_FREE_MESSAGES - msgCount === 1 ? "" : "s"} remaining`}
             </p>
           </div>
         </div>
@@ -147,14 +160,17 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
               <Bot className="h-4 w-4 text-primary" />
             </div>
             <div className="flex gap-1">
-              <span className="h-2 w-2 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-              <span className="h-2 w-2 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-              <span className="h-2 w-2 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+              {[0, 150, 300].map((delay) => (
+                <span
+                  key={delay}
+                  className="h-2 w-2 bg-primary/50 rounded-full animate-bounce"
+                  style={{ animationDelay: `${delay}ms` }}
+                />
+              ))}
             </div>
           </div>
         )}
 
-        {/* Suggested Questions */}
         {messages.length === 1 && !isLoading && (
           <div className="space-y-2 pt-2">
             <p className="text-xs text-muted-foreground">Suggested questions:</p>
@@ -165,7 +181,7 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
                   variant="outline"
                   size="sm"
                   className="text-xs h-auto py-1.5 px-3"
-                  onClick={() => handleSuggestedQuestion(question)}
+                  onClick={() => handleSendMessage(question)}
                 >
                   {question}
                 </Button>
@@ -178,7 +194,24 @@ export function ChatWindow({ onClose }: ChatWindowProps) {
       </CardContent>
 
       <CardFooter className="flex-shrink-0 p-4 border-t">
-        <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+        {isLimitReached ? (
+          <div className="w-full text-center space-y-3">
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Lock className="h-4 w-4" />
+              <span>You&apos;ve used your {MAX_FREE_MESSAGES} free messages</span>
+            </div>
+            <div className="flex gap-2 justify-center">
+              <Link href="/auth/register">
+                <Button size="sm" className="text-xs">Create Free Account</Button>
+              </Link>
+              <Link href="/auth/login">
+                <Button size="sm" variant="outline" className="text-xs">Sign In</Button>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+        )}
       </CardFooter>
     </Card>
   );

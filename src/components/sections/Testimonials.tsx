@@ -29,8 +29,8 @@ export function Testimonials() {
             Trusted by Leading Businesses Worldwide
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join hundreds of enterprises across 5 countries who trust Taxable AI
-            for their chartered accountancy needs.
+            Serving businesses across Pakistan, UK, USA, Saudi Arabia, and UAE
+            with AI-powered chartered accountancy.
           </p>
         </AnimatedSection>
 

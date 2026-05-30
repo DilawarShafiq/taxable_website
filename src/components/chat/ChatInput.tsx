@@ -36,7 +36,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
         onKeyDown={handleKeyDown}
         placeholder="Type your message..."
         disabled={disabled}
-        className="min-h-[44px] max-h-[120px] resize-none"
+        className="min-h-[44px] max-h-[120px] resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
         rows={1}
       />
       <Button

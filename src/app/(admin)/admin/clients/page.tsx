@@ -3,8 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Plus } from "lucide-react";
 import { getSession } from "@/lib/auth/session";
 import { query } from "@/lib/db/pool";
-
-const FLAGS: Record<string, string> = { usa: "🇺🇸", uk: "🇬🇧", saudi: "🇸🇦", pakistan: "🇵🇰" };
+import { JURISDICTION_FLAGS } from "@/lib/constants";
 
 type ClientRow = {
   id: string; company_name: string | null; full_name: string; status: string;
@@ -54,7 +53,7 @@ export default async function AdminClientsPage() {
                   {client.company_name ?? client.full_name ?? "Unnamed Client"}
                 </p>
                 <p className="text-xs text-gray-400">
-                  {(client.jurisdictions ?? []).map((j) => FLAGS[j] ?? j).join(" ")}
+                  {(client.jurisdictions ?? []).map((j) => JURISDICTION_FLAGS[j] ?? j).join(" ")}
                   {client.staff_name ? ` · ${client.staff_name}` : " · Unassigned"}
                 </p>
               </div>

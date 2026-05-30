@@ -35,10 +35,10 @@ const services = [
 ];
 
 const stats = [
-  { value: "100+", label: "UK Clients" },
-  { value: "£500M+", label: "Tax Savings Claimed" },
-  { value: "5+", label: "Years in UK" },
-  { value: "100%", label: "HMRC Compliance" },
+  { value: "ICAEW", label: "Certified Professionals" },
+  { value: "HMRC", label: "Registered Tax Agents" },
+  { value: "MTD", label: "Ready Platform" },
+  { value: "AI", label: "Powered Compliance" },
 ];
 
 const industries = [
@@ -224,16 +224,14 @@ export default function UKPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary" />
-                        <a href="tel:+442012345678" className="hover:text-primary">
-                          +44 20 1234 5678
-                        </a>
+                        <span className="text-muted-foreground">Contact via email</span>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
-                        <a href="mailto:dilawar.gopang@gmail.com" className="hover:text-primary">
-                          dilawar.gopang@gmail.com
+                        <a href="mailto:uk@taxable.ai" className="hover:text-primary">
+                          uk@taxable.ai
                         </a>
                       </div>
                       <div className="flex items-center gap-3">

@@ -3,12 +3,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth/session";
 import { query, queryOne } from "@/lib/db/pool";
 import { Users, FolderKanban, FileText, AlertTriangle, ArrowRight, Clock } from "lucide-react";
-
-const STATUS_COLORS: Record<string, string> = {
-  open: "bg-blue-100 text-blue-700", in_review: "bg-yellow-100 text-yellow-700",
-  pending_docs: "bg-orange-100 text-orange-700", filed: "bg-green-100 text-green-700", closed: "bg-gray-100 text-gray-600",
-};
-const FLAGS: Record<string, string> = { usa: "🇺🇸", uk: "🇬🇧", saudi: "🇸🇦", pakistan: "🇵🇰" };
+import { JURISDICTION_FLAGS, CASE_STATUS_COLORS } from "@/lib/constants";
 
 type CaseRow = { id: string; title: string; status: string; jurisdiction: string; due_date: string | null; client_name: string | null };
 type LeadRow = { id: string; name: string; email: string; jurisdiction: string | null; created_at: string };
@@ -76,13 +71,13 @@ export default async function AdminDashboardPage() {
               <Link key={c.id} href={`/admin/cases/${c.id}`}
                 className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-3 hover:border-indigo-300 hover:shadow-sm transition group">
                 <div className="flex items-center gap-3">
-                  <span>{FLAGS[c.jurisdiction] ?? "📁"}</span>
+                  <span>{JURISDICTION_FLAGS[c.jurisdiction] ?? "📁"}</span>
                   <div>
                     <p className="text-sm font-medium text-gray-800 group-hover:text-indigo-700">{c.title}</p>
                     <p className="text-xs text-gray-400">{c.client_name ?? "—"}{c.due_date ? ` · Due ${new Date(c.due_date).toLocaleDateString("en-GB")}` : ""}</p>
                   </div>
                 </div>
-                <span className={`text-xs font-medium px-2 py-1 rounded-full ${STATUS_COLORS[c.status]}`}>{c.status.replace("_", " ")}</span>
+                <span className={`text-xs font-medium px-2 py-1 rounded-full ${CASE_STATUS_COLORS[c.status]}`}>{c.status.replace("_", " ")}</span>
               </Link>
             ))}
           </div>
@@ -98,7 +93,7 @@ export default async function AdminDashboardPage() {
               <div key={lead.id} className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-3">
                 <div>
                   <p className="text-sm font-medium text-gray-800">{lead.name}</p>
-                  <p className="text-xs text-gray-400">{lead.email} · {FLAGS[lead.jurisdiction ?? ""] ?? ""} {lead.jurisdiction?.toUpperCase() ?? "Unknown"}</p>
+                  <p className="text-xs text-gray-400">{lead.email} · {JURISDICTION_FLAGS[lead.jurisdiction ?? ""] ?? ""} {lead.jurisdiction?.toUpperCase() ?? "Unknown"}</p>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-gray-400">
                   <Clock className="h-3 w-3" />

@@ -1,5 +1,5 @@
 export type Role = "client" | "staff" | "admin" | "ceo";
-export type Jurisdiction = "usa" | "uk" | "saudi" | "pakistan";
+export type Jurisdiction = "usa" | "uk" | "saudi" | "pakistan" | "uae";
 export type CaseType = "tax_filing" | "audit" | "accounting" | "consultation";
 export type CaseStatus = "open" | "in_review" | "pending_docs" | "filed" | "closed";
 export type DocumentProcessingStatus = "pending" | "processing" | "done" | "failed";

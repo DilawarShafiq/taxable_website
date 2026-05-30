@@ -2,8 +2,8 @@ import nodemailer from "nodemailer";
 import type { Jurisdiction } from "@/types/database";
 
 const FROM_NAME = "Taxable AI";
-const FROM = `${FROM_NAME} <${process.env.GMAIL_USER ?? "dilawar.gopang@gmail.com"}>`;
-const LEADS_EMAIL = process.env.GMAIL_LEADS_EMAIL ?? "dilawar.gopang@gmail.com";
+const FROM = `${FROM_NAME} <${process.env.GMAIL_USER ?? "hello@taxable.ai"}>`;
+const LEADS_EMAIL = process.env.GMAIL_LEADS_EMAIL ?? "hello@taxable.ai";
 
 function getTransport() {
   return nodemailer.createTransport({
@@ -104,6 +104,18 @@ export async function sendDocumentRequestEmail(
     to,
     subject: `Document Required: ${requestedDoc}`,
     html: `<p>Hi ${clientName},</p><p>Your accountant has requested: <strong>${requestedDoc}</strong> for case <strong>${caseTitle}</strong>.</p><p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/client/cases/${caseId}">Upload Document</a></p><p>The Taxable AI Team</p>`,
+  });
+}
+
+export async function sendPasswordResetEmail(
+  to: string,
+  name: string,
+  resetUrl: string
+) {
+  return send({
+    to,
+    subject: "Reset your Taxable AI password",
+    html: `<p>Hi ${name},</p><p>We received a request to reset your password. Click the link below to set a new one:</p><p><a href="${resetUrl}">Reset Password</a></p><p>This link expires in 1 hour. If you did not request a password reset, you can safely ignore this email.</p><p>The Taxable AI Team</p>`,
   });
 }
 

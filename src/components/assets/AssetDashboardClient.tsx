@@ -141,6 +141,7 @@ export default function AssetDashboardClient() {
             <option value="uk">🇬🇧 UK</option>
             <option value="saudi">🇸🇦 Saudi Arabia</option>
             <option value="pakistan">🇵🇰 Pakistan</option>
+            <option value="uae">🇦🇪 UAE</option>
           </select>
         </div>
 

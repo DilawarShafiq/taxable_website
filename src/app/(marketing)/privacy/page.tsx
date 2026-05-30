@@ -63,7 +63,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 mb-4 text-muted-foreground space-y-2">
               <li>256-bit SSL/TLS encryption for data in transit</li>
               <li>AES-256 encryption for data at rest</li>
-              <li>SOC 2 Type II compliant infrastructure</li>
+              <li>Enterprise-grade cloud infrastructure with security controls</li>
               <li>Regular security audits and penetration testing</li>
               <li>Access controls and employee training</li>
             </ul>
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
               For privacy-related inquiries, please contact our Data Protection Officer:
             </p>
             <p className="text-muted-foreground mb-4">
-              Email: dilawar.gopang@gmail.com<br />
+              Email: hello@taxable.ai<br />
               Address: Contact our nearest regional office
             </p>
 

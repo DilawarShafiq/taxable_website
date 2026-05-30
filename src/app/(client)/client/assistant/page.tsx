@@ -142,7 +142,6 @@ const STARTERS_BY_AGENT: Record<AgentType, string[]> = {
 const JURISDICTIONS = JURISDICTION_OPTIONS.map(({ value, label }) => ({
   value,
   label: label.replace("United Kingdom", "UK").replace("United States", "USA").replace("Saudi Arabia", "Saudi"),
-  flag: { pakistan: "🇵🇰", uk: "🇬🇧", usa: "🇺🇸", saudi: "🇸🇦", uae: "🇦🇪" }[value] ?? "🌍",
 }));
 
 function AgentBadge({ agent, size = "sm" }: { agent: AgentType; size?: "sm" | "xs" }) {
@@ -566,13 +565,12 @@ Analyse for tax implications.`;
               onClick={() => setSelectedJurisdictions((prev) =>
                 prev.includes(j.value) ? prev.filter((x) => x !== j.value) : [...prev, j.value]
               )}
-              className={`flex-shrink-0 flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg border transition-all ${
+              className={`flex-shrink-0 text-[11px] px-2.5 py-1 rounded-lg border transition-all ${
                 selectedJurisdictions.includes(j.value)
                   ? "bg-slate-900 text-white border-slate-900 shadow-sm"
                   : "text-slate-500 border-slate-200 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
-              <span>{j.flag}</span>
               {j.label}
             </button>
           ))}
@@ -698,7 +696,7 @@ Analyse for tax implications.`;
           >
             <Paperclip className="h-4 w-4" />
           </button>
-          <div className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 focus-within:border-slate-400 focus-within:bg-white transition-all shadow-sm">
+          <div className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 transition-colors shadow-sm">
             <textarea
               ref={textareaRef}
               value={input}
@@ -707,7 +705,7 @@ Analyse for tax implications.`;
               placeholder={`Ask ${currentAgentMeta.label.toLowerCase() === "general" ? "anything" : currentAgentMeta.label.toLowerCase()}…`}
               rows={1}
               disabled={loading}
-              className="w-full text-sm text-slate-900 placeholder-slate-400 bg-transparent resize-none outline-none leading-relaxed disabled:opacity-50 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="w-full text-sm text-slate-900 placeholder-slate-400 bg-transparent resize-none outline-none ring-0 border-0 leading-relaxed disabled:opacity-50 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
               style={{ maxHeight: 180 }}
             />
           </div>

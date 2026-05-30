@@ -23,13 +23,13 @@ const securityFeatures = [
   },
   {
     icon: Award,
-    title: "SOC 2 Certified",
-    description: "Audited security and privacy controls",
+    title: "Data Integrity",
+    description: "Immutable audit logs and access controls",
   },
   {
     icon: CheckCircle,
-    title: "ISO 27001",
-    description: "Information security management certified",
+    title: "Secure Infrastructure",
+    description: "Hosted on enterprise-grade cloud with redundancy",
   },
 ];
 

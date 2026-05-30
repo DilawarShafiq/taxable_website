@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 const footerLinks = {
   services: [
@@ -18,11 +18,12 @@ const footerLinks = {
   portals: [
     { name: "Client Sign In", href: "/auth/login" },
     { name: "Client Dashboard", href: "/client/dashboard" },
-    { name: "Admin Portal", href: "/admin/dashboard" },
-    { name: "Register", href: "/auth/register" },
+    { name: "Create Account", href: "/auth/register" },
+    { name: "AI Demo", href: "/demo" },
   ],
   company: [
     { name: "About Us", href: "/about" },
+    { name: "Pricing", href: "/pricing" },
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
     { name: "Privacy Policy", href: "/privacy" },
@@ -31,9 +32,9 @@ const footerLinks = {
 };
 
 const offices = [
-  { region: "Pakistan", email: "dilawar.gopang@gmail.com", phone: "+92 300 1234567" },
-  { region: "UK", email: "dilawar.gopang@gmail.com", phone: "+44 20 1234 5678" },
-  { region: "USA", email: "dilawar.gopang@gmail.com", phone: "+1 555 123 4567" },
+  { region: "Pakistan", email: "pk@taxable.ai" },
+  { region: "UK", email: "uk@taxable.ai" },
+  { region: "USA", email: "usa@taxable.ai" },
 ];
 
 export function Footer() {
@@ -54,23 +55,9 @@ export function Footer() {
               Saudi Arabia, and UAE. Professional taxation, audits, and accounting
               solutions with cutting-edge AI technology.
             </p>
-            <div className="mt-6 flex space-x-4">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
+            <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+              <Mail className="h-4 w-4" />
+              <a href="mailto:hello@taxable.ai" className="hover:text-foreground transition-colors">hello@taxable.ai</a>
             </div>
           </div>
 
@@ -151,8 +138,7 @@ export function Footer() {
                 <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
                   <p className="font-medium text-sm">{office.region}</p>
-                  <p className="text-sm text-muted-foreground">{office.email}</p>
-                  <p className="text-sm text-muted-foreground">{office.phone}</p>
+                  <a href={`mailto:${office.email}`} className="text-sm text-muted-foreground hover:text-foreground transition-colors">{office.email}</a>
                 </div>
               </div>
             ))}

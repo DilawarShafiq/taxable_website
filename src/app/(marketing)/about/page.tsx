@@ -36,56 +36,47 @@ const values = [
 ];
 
 const milestones = [
-  { year: "2018", event: "Founded in Karachi with a vision to modernize chartered accountancy" },
-  { year: "2019", event: "Expanded to UK, establishing London operations" },
-  { year: "2020", event: "Launched AI-powered document processing technology" },
-  { year: "2021", event: "Opened offices in Dubai and Riyadh to serve Middle East clients" },
-  { year: "2022", event: "Entered US market with New York presence" },
-  { year: "2023", event: "Introduced advanced AI agents for automated tax calculations" },
-  { year: "2024", event: "Expanding enterprise services across 5 countries" },
+  { year: "2024", event: "Founded with a vision to bring AI-powered chartered accountancy to global markets" },
+  { year: "2025", event: "Launched AI-powered platform covering Pakistan, UK, USA, Saudi Arabia, and UAE" },
+  { year: "2025", event: "Integrated real-time tax knowledge bases and multi-agent AI assistant" },
+  { year: "2026", event: "Expanding enterprise client services and deepening AI capabilities across all jurisdictions" },
 ];
 
 const team = [
   {
-    name: "Ahmed Khan",
-    role: "Managing Partner",
-    credentials: "FCA, CPA",
-    bio: "25+ years in international taxation and audit. Former Big 4 partner.",
+    role: "Tax Director — Pakistan",
+    credentials: "FCA (ICAP)",
+    bio: "Specialist in FBR compliance, corporate taxation, and audit for Pakistani businesses.",
     region: "Pakistan",
   },
   {
-    name: "Sarah Mitchell",
-    role: "Director - UK Operations",
-    credentials: "ACA, FCCA",
-    bio: "Specialist in UK tax law and cross-border transactions.",
+    role: "Tax Director — UK",
+    credentials: "ACA (ICAEW)",
+    bio: "Expert in HMRC compliance, R&D tax credits, and cross-border UK tax matters.",
     region: "United Kingdom",
   },
   {
-    name: "Michael Rodriguez",
-    role: "Director - US Operations",
-    credentials: "CPA, MBA",
-    bio: "Expert in US federal and state taxation for multinational corporations.",
+    role: "Tax Director — USA",
+    credentials: "CPA (AICPA)",
+    bio: "Specialist in federal/state taxation, FBAR/FATCA, and international tax planning.",
     region: "United States",
   },
   {
-    name: "Fatima Al-Rashid",
-    role: "Director - GCC Operations",
+    role: "Tax Director — GCC",
     credentials: "CPA, SOCPA",
-    bio: "Leading authority on VAT implementation and Zakat compliance in the Gulf.",
+    bio: "Specialist in ZATCA VAT, Zakat compliance, and UAE Corporate Tax.",
     region: "Saudi Arabia & UAE",
   },
   {
-    name: "Dr. James Chen",
-    role: "Chief Technology Officer",
-    credentials: "PhD, MIT",
-    bio: "AI researcher turned fintech innovator. Leading our AI agent development.",
+    role: "Head of AI Engineering",
+    credentials: "MSc Computer Science",
+    bio: "Leading the development of our multi-agent AI platform and tax knowledge systems.",
     region: "Global",
   },
   {
-    name: "Priya Sharma",
     role: "Head of Client Success",
-    credentials: "MBA, PMP",
-    bio: "Ensuring exceptional client experiences across all our markets.",
+    credentials: "CPA, MBA",
+    bio: "Ensuring exceptional client experiences and outcomes across all jurisdictions.",
     region: "Global",
   },
 ];
@@ -208,7 +199,7 @@ export default function AboutPage() {
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Our Journey</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              From a Karachi startup to a global AI-powered accountancy firm.
+              Building the future of AI-powered chartered accountancy.
             </p>
           </AnimatedSection>
 
@@ -243,14 +234,13 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {team.map((member, index) => (
-              <AnimatedSection key={member.name} delay={index * 0.1}>
+              <AnimatedSection key={member.role} delay={index * 0.1}>
                 <Card className="h-full">
                   <CardContent className="p-6">
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary text-xl font-bold mb-4">
-                      {member.name.split(' ').map(n => n[0]).join('')}
+                      <Users className="h-7 w-7" />
                     </div>
-                    <h3 className="font-semibold text-lg">{member.name}</h3>
-                    <p className="text-primary text-sm mb-1">{member.role}</p>
+                    <h3 className="font-semibold text-lg">{member.role}</h3>
                     <p className="text-xs text-muted-foreground mb-3">{member.credentials}</p>
                     <p className="text-sm text-muted-foreground mb-3">{member.bio}</p>
                     <Badge variant="outline" className="text-xs">{member.region}</Badge>
@@ -300,7 +290,7 @@ export default function AboutPage() {
           <AnimatedSection className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-4">Ready to Work with Us?</h2>
             <p className="text-muted-foreground mb-8">
-              Join hundreds of businesses that trust Taxable AI for their financial needs.
+              Join businesses across Pakistan, UK, USA, Saudi Arabia, and UAE that trust Taxable AI for their financial needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">

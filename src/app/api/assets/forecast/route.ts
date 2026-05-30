@@ -12,7 +12,7 @@ const bodySchema = z.object({
     type: z.enum(["stock", "crypto", "real_estate"]),
     data: z.array(z.object({ date: z.string(), value: z.number(), pct_change: z.number() })),
   })),
-  jurisdiction: z.enum(["usa", "uk", "saudi", "pakistan"]).optional(),
+  jurisdiction: z.enum(["usa", "uk", "saudi", "pakistan", "uae"]).optional(),
   range: z.string().optional(),
 });
 

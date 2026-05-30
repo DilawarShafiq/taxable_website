@@ -16,11 +16,15 @@ export async function POST(request: NextRequest) {
     }
 
     const data = result.data;
+    // Map form region values to DB jurisdiction enum values
+    const jurisdictionMap: Record<string, string> = { "saudi-arabia": "saudi" };
+    const jurisdiction = data.region ? (jurisdictionMap[data.region] ?? data.region) : null;
+
     const lead = await queryOne<{ id: string }>(
       `INSERT INTO leads (name, email, phone, company, jurisdiction, service_interest, message, source)
        VALUES ($1,$2,$3,$4,$5,$6,$7,'contact_form') RETURNING id`,
       [data.name, data.email, data.phone ?? null, data.company ?? null,
-       data.region ?? null, data.serviceInterest ?? null, data.message]
+       jurisdiction, data.serviceInterest ?? null, data.message]
     );
 
     // Non-blocking email notification
@@ -29,7 +33,7 @@ export async function POST(request: NextRequest) {
       email: data.email,
       phone: data.phone,
       company: data.company,
-      jurisdiction: (data.region as "usa" | "uk" | "saudi" | "pakistan") ?? undefined,
+      jurisdiction: (jurisdiction as "usa" | "uk" | "saudi" | "pakistan" | "uae") ?? undefined,
       service_interest: data.serviceInterest,
       message: data.message,
       source: "contact_form",

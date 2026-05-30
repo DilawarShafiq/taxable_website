@@ -8,11 +8,13 @@ export default async function ClientLayout({ children }: { children: React.React
   if (["staff", "admin", "ceo"].includes(session.role)) redirect("/admin/dashboard");
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-slate-50">
       <ClientSidebar user={{ email: session.email, fullName: session.fullName }} />
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-6xl mx-auto p-6 lg:p-8">{children}</div>
-      </main>
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <main className="flex-1 overflow-y-auto h-full">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

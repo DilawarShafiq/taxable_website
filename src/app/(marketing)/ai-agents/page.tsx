@@ -53,7 +53,7 @@ const agents = [
     ],
     color: "text-green-500",
     bgColor: "bg-green-500/10",
-    badge: null,
+    badge: "Coming Soon",
   },
   {
     icon: FileUp,
@@ -95,7 +95,7 @@ const agents = [
     ],
     color: "text-orange-500",
     bgColor: "bg-orange-500/10",
-    badge: null,
+    badge: "Coming Soon",
   },
   {
     icon: MessageSquare,
@@ -137,7 +137,7 @@ const agents = [
     ],
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
-    badge: null,
+    badge: "Coming Soon",
   },
 ];
 

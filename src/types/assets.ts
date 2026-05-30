@@ -16,8 +16,9 @@ export const ASSET_DEFINITIONS: AssetDefinition[] = [
   // Stocks
   { symbol: "^GSPC", name: "S&P 500", type: "stock", description: "US large-cap equities", logoColor: "#3B82F6" },
   { symbol: "^FTSE", name: "FTSE 100", type: "stock", description: "UK top 100 companies", logoColor: "#1D4ED8" },
-  { symbol: "^KSE", name: "KSE-100", type: "stock", description: "Pakistan Stock Exchange", logoColor: "#15803D" },
+  { symbol: "^KSE", name: "PSX 100", type: "stock", description: "Pakistan Stock Exchange (formerly KSE-100)", logoColor: "#15803D" },
   { symbol: "^TASI", name: "Tadawul (TASI)", type: "stock", description: "Saudi Stock Exchange", logoColor: "#B45309" },
+  { symbol: "^DFMGI", name: "DFM General (Dubai)", type: "stock", description: "Dubai Financial Market Index", logoColor: "#0369A1" },
   { symbol: "^NDX", name: "NASDAQ-100", type: "stock", description: "US technology index", logoColor: "#7C3AED" },
   // Crypto
   { symbol: "BTC", name: "Bitcoin", type: "crypto", description: "Digital gold", logoColor: "#F59E0B" },
@@ -29,6 +30,7 @@ export const ASSET_DEFINITIONS: AssetDefinition[] = [
   { symbol: "RE_UK", name: "UK Real Estate", type: "real_estate", description: "ONS House Price Index", logoColor: "#BE185D" },
   { symbol: "RE_SA", name: "Saudi Real Estate", type: "real_estate", description: "Kingdom property index", logoColor: "#065F46" },
   { symbol: "RE_PK", name: "Pakistan Real Estate", type: "real_estate", description: "Urban property index", logoColor: "#92400E" },
+  { symbol: "RE_AE", name: "UAE Real Estate", type: "real_estate", description: "Dubai property price index (DLD)", logoColor: "#D97706" },
 ];
 
 export interface AssetForecastOutlook {

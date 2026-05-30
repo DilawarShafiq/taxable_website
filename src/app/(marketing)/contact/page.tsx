@@ -13,40 +13,40 @@ const offices = [
   {
     region: "Pakistan",
     flag: "🇵🇰",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+92 300 1234567",
+    email: "pk@taxable.ai",
+    phone: null,
     address: "Karachi, Pakistan",
     hours: "Mon-Sat: 9:00 AM - 6:00 PM PKT",
   },
   {
     region: "United Kingdom",
     flag: "🇬🇧",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+44 20 1234 5678",
+    email: "uk@taxable.ai",
+    phone: null,
     address: "London, UK",
     hours: "Mon-Fri: 9:00 AM - 5:30 PM GMT",
   },
   {
     region: "United States",
     flag: "🇺🇸",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+1 555 123 4567",
+    email: "usa@taxable.ai",
+    phone: null,
     address: "New York, USA",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM EST",
   },
   {
     region: "Saudi Arabia",
     flag: "🇸🇦",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+966 11 123 4567",
+    email: "sa@taxable.ai",
+    phone: null,
     address: "Riyadh, Saudi Arabia",
     hours: "Sun-Thu: 8:00 AM - 5:00 PM AST",
   },
   {
     region: "UAE",
     flag: "🇦🇪",
-    email: "dilawar.gopang@gmail.com",
-    phone: "+971 4 123 4567",
+    email: "uae@taxable.ai",
+    phone: null,
     address: "Dubai, UAE",
     hours: "Sun-Thu: 9:00 AM - 6:00 PM GST",
   },
@@ -102,12 +102,14 @@ export default function ContactPage() {
                                 {office.email}
                               </a>
                             </div>
+                            {office.phone && (
                             <div className="flex items-center gap-2">
                               <Phone className="h-4 w-4" />
                               <a href={`tel:${office.phone}`} className="hover:text-foreground">
                                 {office.phone}
                               </a>
                             </div>
+                            )}
                             <div className="flex items-center gap-2">
                               <MapPin className="h-4 w-4" />
                               <span>{office.address}</span>

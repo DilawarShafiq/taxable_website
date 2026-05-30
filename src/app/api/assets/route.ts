@@ -3,6 +3,7 @@ import { getCachedAssetData, upsertAssetData } from "@/lib/market-data/cache";
 import { fetchCryptoHistory } from "@/lib/market-data/coingecko";
 import { fetchStockHistory } from "@/lib/market-data/alpha-vantage";
 import { fetchRealEstateHistory } from "@/lib/market-data/real-estate";
+import { getStaticStockData } from "@/lib/market-data/static-stocks";
 import { ASSET_DEFINITIONS } from "@/types/assets";
 import type { AssetType } from "@/types/database";
 
@@ -22,8 +23,8 @@ export async function GET(req: NextRequest) {
 
   const assetType: AssetType = assetDef.type;
 
+  // Check DB cache first (avoids hammering external APIs)
   try {
-    // Check cache first
     const cached = await getCachedAssetData(symbol, range, assetType);
     if (cached) {
       return NextResponse.json({
@@ -36,8 +37,12 @@ export async function GET(req: NextRequest) {
         fromCache: true,
       });
     }
+  } catch {
+    // DB unavailable — skip cache, fetch live
+  }
 
-    // Fetch fresh data
+  // Fetch live data
+  try {
     let dataPoints = [];
     if (assetType === "crypto") {
       dataPoints = await fetchCryptoHistory(symbol, range);
@@ -47,10 +52,11 @@ export async function GET(req: NextRequest) {
       dataPoints = await fetchRealEstateHistory(symbol, range);
     }
 
-    // Upsert to cache
     const now = new Date().toISOString();
+
+    // Write to cache in background (don't await — keep response fast)
     if (dataPoints.length > 0) {
-      await upsertAssetData(symbol, range, assetType, dataPoints, "live");
+      upsertAssetData(symbol, range, assetType, dataPoints, "live").catch(() => {});
     }
 
     return NextResponse.json({
@@ -65,19 +71,26 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     console.error(`[assets] Error fetching ${symbol}:`, err);
 
-    // Fall back to seed data from DB even if stale
-    const stale = await getCachedAssetData(symbol, range, assetType).catch(() => null);
-    if (stale) {
-      return NextResponse.json({
-        symbol,
-        name: assetDef.name,
-        type: assetType,
-        range,
-        data: stale.data,
-        cachedAt: stale.cachedAt,
-        fromCache: true,
-        stale: true,
-      });
+    // Stale DB cache
+    try {
+      const stale = await getCachedAssetData(symbol, range, assetType);
+      if (stale) {
+        return NextResponse.json({
+          symbol, name: assetDef.name, type: assetType, range,
+          data: stale.data, cachedAt: stale.cachedAt, fromCache: true, stale: true,
+        });
+      }
+    } catch { /* ignore */ }
+
+    // Static built-in fallback for stocks (always available, no API needed)
+    if (assetType === "stock") {
+      const staticData = getStaticStockData(symbol, range);
+      if (staticData.length > 0) {
+        return NextResponse.json({
+          symbol, name: assetDef.name, type: assetType, range,
+          data: staticData, cachedAt: new Date().toISOString(), fromCache: false, static: true,
+        });
+      }
     }
 
     return NextResponse.json({ error: "Failed to fetch asset data" }, { status: 500 });

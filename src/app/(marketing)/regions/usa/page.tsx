@@ -35,10 +35,10 @@ const services = [
 ];
 
 const stats = [
-  { value: "75+", label: "US Clients" },
-  { value: "$100M+", label: "Tax Savings" },
+  { value: "AICPA", label: "Certified CPAs" },
+  { value: "IRS", label: "Authorized Agents" },
   { value: "All 50", label: "States Covered" },
-  { value: "100%", label: "IRS Compliance" },
+  { value: "AI", label: "Powered Platform" },
 ];
 
 const industries = [
@@ -224,16 +224,14 @@ export default function USAPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary" />
-                        <a href="tel:+15551234567" className="hover:text-primary">
-                          +1 555 123 4567
-                        </a>
+                        <span className="text-muted-foreground">Contact via email</span>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
-                        <a href="mailto:dilawar.gopang@gmail.com" className="hover:text-primary">
-                          dilawar.gopang@gmail.com
+                        <a href="mailto:usa@taxable.ai" className="hover:text-primary">
+                          usa@taxable.ai
                         </a>
                       </div>
                       <div className="flex items-center gap-3">

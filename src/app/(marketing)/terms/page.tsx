@@ -144,7 +144,7 @@ export default function TermsPage() {
               For questions about these Terms, please contact us at:
             </p>
             <p className="text-muted-foreground mb-4">
-              Email: dilawar.gopang@gmail.com<br />
+              Email: hello@taxable.ai<br />
               Address: Contact your nearest regional office
             </p>
           </div>
