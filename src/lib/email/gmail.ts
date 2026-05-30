@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import type { Jurisdiction } from "@/types/database";
 
-const FROM = "Taxable AI <noreply@taxable.ai>";
+const FROM = process.env.EMAIL_FROM ?? "Taxable AI <onboarding@resend.dev>";
 const LEADS_EMAIL = process.env.LEADS_EMAIL ?? process.env.GMAIL_LEADS_EMAIL ?? "dilawar.gopang@gmail.com";
 
 function getResend() {
