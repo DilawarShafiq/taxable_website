@@ -23,8 +23,21 @@ function makePool() {
   });
 }
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "dilawar.gopang@gmail.com";
+
 export const auth = betterAuth({
   database: makePool(),
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          if (user.email === ADMIN_EMAIL) {
+            return { data: { ...user, role: "admin" } };
+          }
+        },
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {

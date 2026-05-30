@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     }
 
     const hash = await bcrypt.hash(password, 12);
-    const adminEmail = process.env.ADMIN_EMAIL ?? "hello@taxable.ai";
+    const adminEmail = process.env.ADMIN_EMAIL ?? "dilawar.gopang@gmail.com";
     const role = email === adminEmail ? "admin" : "client";
 
     // Insert new profile; if email exists with no password (Firebase migration), update it
