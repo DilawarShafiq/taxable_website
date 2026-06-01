@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import bcrypt from "bcryptjs";
-import { queryOne } from "@/lib/db/pool";
+import { query, queryOne } from "@/lib/db/pool";
 import { auth } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -18,15 +17,19 @@ export async function POST(req: NextRequest) {
   }
 
   const user = await queryOne<{ id: string }>(
-    "SELECT id FROM profiles WHERE email = $1",
+    `SELECT id FROM "user" WHERE email = $1`,
     [email]
   );
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-  const hash = await bcrypt.hash(newPassword, 12);
-  await queryOne(
-    "UPDATE profiles SET password_hash = $1 WHERE email = $2",
-    [hash, email]
+  // Hash with Better Auth's own hasher and write to the credential account,
+  // so the new password works with Better Auth sign-in (single auth system).
+  const ctx = await auth.$context;
+  const hash = await ctx.password.hash(newPassword);
+  await query(
+    `UPDATE account SET password = $1, updated_at = now()
+     WHERE user_id = $2 AND provider_id = 'credential'`,
+    [hash, user.id]
   );
 
   return NextResponse.json({ success: true });

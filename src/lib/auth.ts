@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 import { sendPasswordResetEmail } from "@/lib/email/gmail";
+import { query } from "@/lib/db/pool";
 
 function makePool() {
   const url = process.env.DATABASE_URL;
@@ -35,6 +36,22 @@ export const auth = betterAuth({
             return { data: { ...user, role: "admin" } };
           }
         },
+        // Mirror every new user into the domain `profiles` table, keyed by the
+        // Better Auth user id. The rest of the app links clients/cases/messages
+        // on profiles.id = session.user.id, so this row must exist for the
+        // client portal (onboarding, chat, etc.) to work.
+        after: async (user) => {
+          const role = (user as { role?: string }).role ?? "client";
+          await query(
+            `INSERT INTO profiles (id, email, full_name, role)
+             VALUES ($1, $2, $3, $4)
+             ON CONFLICT (email) DO UPDATE SET
+               full_name = EXCLUDED.full_name,
+               role = EXCLUDED.role,
+               updated_at = now()`,
+            [user.id, user.email, user.name ?? "", role]
+          ).catch((err) => console.error("[auth] profile sync failed:", err));
+        },
       },
     },
   },
@@ -48,7 +65,16 @@ export const auth = betterAuth({
       ).catch((err) => console.error("[auth] reset email failed:", err));
     },
   },
+  // The existing database tables use snake_case columns (created under the
+  // previous NextAuth-based schema). Map Better Auth's camelCase field names to
+  // those real column names so signups read/write the existing schema.
   user: {
+    modelName: "user",
+    fields: {
+      emailVerified: "email_verified",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    },
     additionalFields: {
       role: {
         type: "string",
@@ -58,9 +84,41 @@ export const auth = betterAuth({
     },
   },
   session: {
+    modelName: "session",
+    fields: {
+      expiresAt: "expires_at",
+      ipAddress: "ip_address",
+      userAgent: "user_agent",
+      userId: "user_id",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    },
     cookieCache: {
       enabled: true,
       maxAge: 60 * 5, // 5 min cache on cookie
+    },
+  },
+  account: {
+    modelName: "account",
+    fields: {
+      accountId: "account_id",
+      providerId: "provider_id",
+      userId: "user_id",
+      accessToken: "access_token",
+      refreshToken: "refresh_token",
+      idToken: "id_token",
+      accessTokenExpiresAt: "access_token_expires_at",
+      refreshTokenExpiresAt: "refresh_token_expires_at",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    },
+  },
+  verification: {
+    modelName: "verification",
+    fields: {
+      expiresAt: "expires_at",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     },
   },
   trustedOrigins: [

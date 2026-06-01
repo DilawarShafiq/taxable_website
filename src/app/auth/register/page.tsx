@@ -46,13 +46,8 @@ function RegisterForm() {
         return;
       }
 
-      // Also upsert into profiles table for role/CA data
-      await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, password: form.password, fullName: form.fullName }),
-      });
-
+      // Better Auth creates the user + account and (via a database hook) the
+      // matching profiles row, so no second write is needed here.
       router.push("/client/dashboard");
       router.refresh();
     } catch {
